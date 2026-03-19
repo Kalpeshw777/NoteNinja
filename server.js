@@ -30,7 +30,7 @@ Rules: ${numPoints} points, 5 qa items, diff = easy/medium/hard, empty formulas 
         "Authorization": `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: "llama-3.3-70b-versatile",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.3,
         max_tokens: 2048
