@@ -4,35 +4,20 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>StudySnap — AI Exam Helper</title>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a26;
-    --border: #2a2a3e;
-    --accent: #7c5cfc;
-    --accent2: #00e5bf;
-    --accent3: #ff6b6b;
-    --text: #e8e8f0;
-    --text-muted: #6e6e8a;
-    --text-dim: #3a3a52;
-    --gold: #f5c518;
-    --radius: 14px;
-    --glow: 0 0 40px rgba(124,92,252,0.15);
+    --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a26; --border: #2a2a3e;
+    --accent: #7c5cfc; --accent2: #00e5bf; --accent3: #ff6b6b;
+    --text: #e8e8f0; --text-muted: #6e6e8a; --text-dim: #3a3a52;
+    --gold: #f5c518; --radius: 14px; --glow: 0 0 40px rgba(124,92,252,0.15);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: linear-gradient(rgba(124,92,252,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,252,0.04) 1px, transparent 1px);
-    background-size: 40px 40px; pointer-events: none; z-index: 0;
-  }
-  body::after {
-    content: ''; position: fixed; top: -200px; right: -200px; width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%); pointer-events: none; z-index: 0;
-  }
+  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(124,92,252,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,252,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+  body::after { content: ''; position: fixed; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, transparent 70%); pointer-events: none; z-index: 0; }
   .container { max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
   header { padding: 28px 0 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: relative; z-index: 2; }
   .logo { display: flex; align-items: center; gap: 10px; }
@@ -144,6 +129,7 @@
   .pro-feat { background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2); border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; color: var(--accent); font-family: 'DM Mono', monospace; }
   .pro-btn { background: linear-gradient(135deg, var(--gold), #d4a017); border: none; border-radius: 10px; padding: 12px 28px; color: #0a0a0f; font-size: 0.9rem; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s; }
   .pro-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,197,24,0.35); }
+  .pro-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.active { display: flex; }
   .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 500px; width: 100%; animation: fadeUp 0.3s ease; }
@@ -151,9 +137,10 @@
   .modal-header h2 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
   .modal-header p { color: var(--text-muted); font-size: 0.85rem; }
   .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-  .pricing-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
+  .pricing-card { background: var(--surface2); border: 2px solid var(--border); border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
   .pricing-card.recommended { border-color: var(--accent); background: rgba(124,92,252,0.08); }
   .pricing-card.recommended::before { content: 'BEST VALUE'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; font-size: 0.6rem; font-family: 'DM Mono', monospace; letter-spacing: 1px; padding: 2px 10px; border-radius: 10px; }
+  .pricing-card.selected { border-color: var(--gold) !important; background: rgba(245,197,24,0.06) !important; }
   .pricing-card:hover { transform: translateY(-2px); }
   .plan-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
   .plan-price { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 12px; }
@@ -181,19 +168,16 @@
       <button class="upgrade-btn" onclick="openModal()">⚡ Upgrade</button>
     </div>
   </header>
-
   <div class="usage-bar-wrap">
     <span class="usage-label">DAILY USES</span>
     <div class="usage-bar"><div class="usage-fill" id="usageFill" style="width:0%"></div></div>
     <span class="usage-count"><span id="usedCount">0</span>/3 free</span>
   </div>
-
   <div class="hero">
     <div class="hero-tag">✦ Powered by Groq AI</div>
     <h1>Ace Any Exam with<br/><span class="highlight">Instant Smart Notes</span></h1>
     <p>Enter any topic and get AI-generated structured notes, practice Q&A, and flashcards — in seconds.</p>
   </div>
-
   <div class="input-section">
     <div class="input-row">
       <div class="input-group">
@@ -224,15 +208,12 @@
       <div class="quick-chip" onclick="setTopic('Python Basics')">Python Basics</div>
     </div>
   </div>
-
   <div class="error-box" id="errorBox"></div>
-
   <div class="loading-state" id="loadingState">
     <div class="loader-ring"></div>
     <div class="loading-text">Groq AI is analyzing your topic...</div>
     <div class="loading-sub">Generating notes, Q&A and flashcards</div>
   </div>
-
   <div class="results" id="results">
     <div class="results-header">
       <div class="topic-title">Notes for: <span id="resultTopic"></span></div>
@@ -251,8 +232,6 @@
       <button class="tab" onclick="switchTab('qa')">❓ Q&A</button>
       <button class="tab" onclick="switchTab('flash')">🃏 Flashcards</button>
     </div>
-
-    <!-- NOTES -->
     <div class="tab-content active" id="tab-notes">
       <div class="notes-card">
         <div class="notes-header"><div class="notes-title"><div class="section-dot"></div>Definition</div></div>
@@ -267,24 +246,18 @@
         <div class="notes-body" id="formulaBody"></div>
       </div>
     </div>
-
-    <!-- Q&A -->
     <div class="tab-content" id="tab-qa">
       <div id="qaList"></div>
       <div class="pro-gate" id="proGate">
         <h3>🔒 Unlock 20 More Questions</h3>
         <p>Pro members get 25 practice questions per topic, MCQ format, and answer explanations.</p>
         <div class="pro-features">
-          <span class="pro-feat">25 Questions</span>
-          <span class="pro-feat">MCQ Format</span>
-          <span class="pro-feat">Explanations</span>
-          <span class="pro-feat">Export PDF</span>
+          <span class="pro-feat">25 Questions</span><span class="pro-feat">MCQ Format</span>
+          <span class="pro-feat">Explanations</span><span class="pro-feat">Export PDF</span>
         </div>
         <button class="pro-btn" onclick="openModal()">⚡ Go Pro — ₹99/month</button>
       </div>
     </div>
-
-    <!-- FLASHCARDS -->
     <div class="tab-content" id="tab-flash">
       <div class="flashcard-wrap" onclick="flipCard()">
         <div class="flashcard" id="flashcard">
@@ -308,22 +281,21 @@
   </div>
 </div>
 
-<!-- PRICING MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-header">
       <h2>⚡ Upgrade to Pro</h2>
-      <p>Unlock unlimited AI power for your exams</p>
+      <p>Select a plan and pay to unlock unlimited access</p>
     </div>
     <div class="pricing-cards">
-      <div class="pricing-card">
+      <div class="pricing-card" id="card-monthly" onclick="selectPlan('monthly')">
         <div class="plan-name">Monthly</div>
         <div class="plan-price">₹99 <small>/mo</small></div>
         <ul class="plan-features">
           <li>Unlimited topics</li><li>25 Q&A per topic</li><li>Deep dive notes</li><li>PDF export</li><li>MCQ format</li>
         </ul>
       </div>
-      <div class="pricing-card recommended">
+      <div class="pricing-card recommended selected" id="card-annual" onclick="selectPlan('annual')">
         <div class="plan-name">Annual</div>
         <div class="plan-price">₹699 <small>/yr</small></div>
         <ul class="plan-features">
@@ -331,7 +303,7 @@
         </ul>
       </div>
     </div>
-    <button class="pro-btn" style="width:100%;margin-bottom:14px" onclick="activatePro()">🚀 Start Free 3-Day Trial</button>
+    <button class="pro-btn" id="payBtn" style="width:100%;margin-bottom:14px" onclick="initiatePayment()">🚀 Pay ₹699 — Annual</button>
     <span class="modal-close" onclick="closeModal()">No thanks, stay on free plan</span>
   </div>
 </div>
@@ -346,20 +318,85 @@
   let currentCardIdx = 0;
   let cardFlipped = false;
   let currentNotes = null;
+  let selectedPlan = 'annual';
+
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.getElementById('card-monthly').classList.toggle('selected', plan === 'monthly');
+    document.getElementById('card-annual').classList.toggle('selected', plan === 'annual');
+    document.getElementById('payBtn').textContent = plan === 'annual' ? '🚀 Pay ₹699 — Annual' : '🚀 Pay ₹99 — Monthly';
+  }
+
+  async function initiatePayment() {
+    const payBtn = document.getElementById('payBtn');
+    payBtn.disabled = true;
+    payBtn.textContent = 'Creating order...';
+    try {
+      const res = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: selectedPlan })
+      });
+      const order = await res.json();
+      if (!res.ok) throw new Error(order.error || 'Failed to create order');
+      const options = {
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'StudySnap',
+        description: selectedPlan === 'annual' ? 'Pro Annual Plan' : 'Pro Monthly Plan',
+        order_id: order.orderId,
+        handler: async function(response) {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          });
+          const verify = await verifyRes.json();
+          if (verify.success) { activatePro(); }
+          else { showToast('⚠️ Payment verification failed. Contact support.'); }
+        },
+        theme: { color: '#7c5cfc' },
+        modal: { ondismiss: function() {
+          payBtn.disabled = false;
+          payBtn.textContent = selectedPlan === 'annual' ? '🚀 Pay ₹699 — Annual' : '🚀 Pay ₹99 — Monthly';
+        }}
+      };
+      new Razorpay(options).open();
+      payBtn.disabled = false;
+      payBtn.textContent = selectedPlan === 'annual' ? '🚀 Pay ₹699 — Annual' : '🚀 Pay ₹99 — Monthly';
+    } catch(err) {
+      showToast('⚠️ ' + err.message);
+      payBtn.disabled = false;
+      payBtn.textContent = selectedPlan === 'annual' ? '🚀 Pay ₹699 — Annual' : '🚀 Pay ₹99 — Monthly';
+    }
+  }
+
+  function activatePro() {
+    isPro = true;
+    document.getElementById('planBadge').className = 'plan-badge pro';
+    document.getElementById('planBadge').innerHTML = '<div class="plan-dot"></div> PRO PLAN';
+    document.querySelector('.usage-count').innerHTML = '<span style="color:var(--gold)">∞</span> unlimited';
+    const gate = document.getElementById('proGate');
+    if (gate) gate.innerHTML = '<h3>✓ Pro Active</h3><p style="color:var(--accent2)">Unlimited access unlocked!</p>';
+    closeModal();
+    showToast('🎉 Payment successful! Welcome to Pro!');
+  }
 
   async function generate() {
     const topic = document.getElementById('topicInput').value.trim();
     if (!topic) { showToast('⚠️ Please enter a topic'); return; }
     if (!isPro && usedToday >= FREE_LIMIT) { openModal(); showToast('🔒 Free limit reached!'); return; }
-
     document.getElementById('errorBox').classList.remove('active');
     document.getElementById('loadingState').classList.add('active');
     document.getElementById('results').classList.remove('active');
     document.getElementById('genBtn').disabled = true;
-
     const level = document.getElementById('levelSelect').value;
     const depth = document.getElementById('depthSelect').value;
-
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -388,20 +425,16 @@
     document.getElementById('statQA').textContent = data.qa?.length || 0;
     document.getElementById('statCards').textContent = data.qa?.length || 0;
     document.getElementById('definitionText').textContent = data.definition;
-
     document.getElementById('keyPointsList').innerHTML = (data.points || []).map((p, i) => `
       <li class="key-point" style="animation-delay:${i*0.05}s">
         <div class="point-num">${String(i+1).padStart(2,'0')}</div>
         <div class="point-text"><strong>${p.title}:</strong> ${p.text}</div>
       </li>`).join('');
-
     const fc = document.getElementById('formulaCard');
     if (data.formulas?.length) {
       fc.style.display = 'block';
-      document.getElementById('formulaBody').innerHTML = data.formulas.map(f =>
-        `<div class="formula-box"><span class="formula-label">▶</span>${f}</div>`).join('');
+      document.getElementById('formulaBody').innerHTML = data.formulas.map(f => `<div class="formula-box"><span class="formula-label">▶</span>${f}</div>`).join('');
     } else { fc.style.display = 'none'; }
-
     document.getElementById('qaList').innerHTML = (data.qa || []).map((item, i) => `
       <div class="qa-item" onclick="toggleQA(this)">
         <div class="qa-question">
@@ -412,7 +445,6 @@
         </div>
         <div class="qa-answer">${item.a}</div>
       </div>`).join('');
-
     currentCards = data.qa || [];
     currentCardIdx = 0; cardFlipped = false;
     updateCard();
@@ -421,72 +453,49 @@
   }
 
   function toggleQA(el) { el.classList.toggle('open'); }
-
   function switchTab(name) {
     document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['notes','qa','flash'][i] === name));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById(`tab-${name}`).classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');
   }
-
   function updateCard() {
     if (!currentCards.length) return;
     const card = currentCards[currentCardIdx];
     document.getElementById('cardQuestion').textContent = card.q;
     document.getElementById('cardAnswer').textContent = card.a;
-    document.getElementById('cardCounter').textContent = `Card ${currentCardIdx + 1} of ${currentCards.length}`;
+    document.getElementById('cardCounter').textContent = 'Card '+(currentCardIdx+1)+' of '+currentCards.length;
     document.getElementById('flashcard').classList.remove('flipped');
     cardFlipped = false;
   }
-
   function flipCard() { cardFlipped = !cardFlipped; document.getElementById('flashcard').classList.toggle('flipped', cardFlipped); }
-  function nextCard() { currentCardIdx = (currentCardIdx + 1) % currentCards.length; updateCard(); }
-  function prevCard() { currentCardIdx = (currentCardIdx - 1 + currentCards.length) % currentCards.length; updateCard(); }
+  function nextCard() { currentCardIdx = (currentCardIdx+1) % currentCards.length; updateCard(); }
+  function prevCard() { currentCardIdx = (currentCardIdx-1+currentCards.length) % currentCards.length; updateCard(); }
   function setTopic(t) { document.getElementById('topicInput').value = t; }
   function clearResults() { document.getElementById('results').classList.remove('active'); document.getElementById('topicInput').value = ''; }
-
   function updateUsageBar() {
-    const pct = Math.min((usedToday / FREE_LIMIT) * 100, 100);
-    document.getElementById('usageFill').style.width = pct + '%';
+    const pct = Math.min((usedToday/FREE_LIMIT)*100, 100);
+    document.getElementById('usageFill').style.width = pct+'%';
     document.getElementById('usedCount').textContent = Math.min(usedToday, FREE_LIMIT);
   }
-
   function copyNotes() {
     if (!currentNotes) return;
-    const text = [
-      `TOPIC: ${document.getElementById('resultTopic').textContent}`,
-      `\nDEFINITION:\n${currentNotes.definition}`,
-      `\nKEY POINTS:\n${(currentNotes.points||[]).map((p,i)=>`${i+1}. ${p.title}: ${p.text.replace(/<[^>]+>/g,'')}`).join('\n')}`,
-      `\nQ&A:\n${(currentNotes.qa||[]).map((q,i)=>`Q${i+1}: ${q.q}\nA: ${q.a}`).join('\n\n')}`
-    ].join('');
+    const text = ['TOPIC: '+document.getElementById('resultTopic').textContent, '\nDEFINITION:\n'+currentNotes.definition, '\nKEY POINTS:\n'+(currentNotes.points||[]).map((p,i)=>(i+1)+'. '+p.title+': '+p.text.replace(/<[^>]+>/g,'')).join('\n'), '\nQ&A:\n'+(currentNotes.qa||[]).map((q,i)=>'Q'+(i+1)+': '+q.q+'\nA: '+q.a).join('\n\n')].join('');
     navigator.clipboard.writeText(text).then(()=>showToast('✓ Notes copied!')).catch(()=>showToast('⚠️ Copy failed'));
   }
-
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+    setTimeout(()=>t.classList.remove('show'), 3000);
   }
-
   function openModal() { document.getElementById('modalOverlay').classList.add('active'); }
   function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
-  function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-
-  function activatePro() {
-    isPro = true;
-    document.getElementById('planBadge').className = 'plan-badge pro';
-    document.getElementById('planBadge').innerHTML = '<div class="plan-dot"></div> PRO PLAN';
-    document.querySelector('.usage-count').innerHTML = '<span style="color:var(--gold)">∞</span> unlimited';
-    document.getElementById('proGate').innerHTML = `<h3>✓ Pro Active</h3><p style="color:var(--accent2)">Unlimited access unlocked!</p>`;
-    closeModal();
-    showToast('🎉 Welcome to Pro!');
-  }
-
-  document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+  function closeModalOutside(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
+  document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key==='Enter') generate(); });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowRight' && currentCards.length) nextCard();
-    if (e.key === 'ArrowLeft' && currentCards.length) prevCard();
-    if (e.key === ' ' && currentCards.length) { e.preventDefault(); flipCard(); }
+    if (e.key==='Escape') closeModal();
+    if (e.key==='ArrowRight' && currentCards.length) nextCard();
+    if (e.key==='ArrowLeft' && currentCards.length) prevCard();
+    if (e.key===' ' && currentCards.length) { e.preventDefault(); flipCard(); }
   });
 </script>
 </body>
