@@ -154,6 +154,5 @@ app.post("/api/verify-payment", authMiddleware, async (req, res) => {
   const newToken = createToken({ email: user.email, name: user.name, picture: user.picture, plan });
   res.json({ success: true, token: newToken, plan });
 });
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`StudySnap running on port ${PORT}`));
