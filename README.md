@@ -36,7 +36,7 @@ git push -u origin main
 ## Project Structure
 ```
 studysnap/
-├── server.js        ← Express backend (Gemini proxy)
+├── server.js        ← Express backend (Groq proxy)
 ├── package.json
 └── public/
     └── index.html   ← Frontend
