@@ -208,7 +208,6 @@
       <div class="quick-chip" onclick="setTopic('Python Basics')">Python Basics</div>
     </div>
   </div>
-  <div class="error-box" id="errorBox"></div>
   <div class="loading-state" id="loadingState">
     <div class="loader-ring"></div>
     <div class="loading-text">Groq AI is analyzing your topic...</div>
@@ -393,7 +392,6 @@
     const topic = document.getElementById('topicInput').value.trim();
     if (!topic) { showToast('⚠️ Please enter a topic'); return; }
     if (!isPro && usedToday >= FREE_LIMIT) { openModal(); showToast('🔒 Free limit reached!'); return; }
-    document.getElementById('errorBox').classList.remove('active');
     document.getElementById('loadingState').classList.add('active');
     document.getElementById('results').classList.remove('active');
     document.getElementById('genBtn').disabled = true;
@@ -411,9 +409,9 @@
       usedToday++;
       updateUsageBar();
     } catch (err) {
-      const box = document.getElementById('errorBox');
-      box.textContent = '⚠️ ' + err.message;
-      box.classList.add('active');
+      console.error(err.message);
+      showToast('⚠️ Something went wrong. Please try again.');
+    
     } finally {
       document.getElementById('loadingState').classList.remove('active');
       document.getElementById('genBtn').disabled = false;
@@ -426,7 +424,7 @@
     document.getElementById('statPoints').textContent = data.points?.length || 0;
     document.getElementById('statQA').textContent = data.qa?.length || 0;
     document.getElementById('statCards').textContent = data.qa?.length || 0;
-    document.getElementById('definitionText').textContent = data.definition;
+    if (document.getElementById('definitionText')) document.getElementById('definitionText').textContent = data.definition;
     document.getElementById('keyPointsList').innerHTML = (data.points || []).map((p, i) => `
       <li class="key-point" style="animation-delay:${i*0.05}s">
         <div class="point-num">${String(i+1).padStart(2,'0')}</div>
