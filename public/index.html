@@ -257,46 +257,67 @@
   .mcq-reset-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   @media (max-width: 600px) {
-    .container { padding: 0 12px; }
-    .input-row { flex-direction: column; }
-    .generate-btn { min-width: unset; width: 100%; }
+    /* Layout */
+    html, body { overflow-x: hidden; width: 100%; }
+    .container { padding: 0 12px; width: 100%; max-width: 100%; }
+
+    /* Header */
     .free-plan-badge { display: none !important; }
     .theme-btn { display: none !important; }
+    .header-right { gap: 6px; }
     .support-btn { padding: 6px 10px; font-size: 0.72rem; }
-    .header-right { gap: 5px; }
-    .free-banner { flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; }
+
+    /* Free Banner */
+    .free-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; gap: 6px; }
     .free-banner-text { font-size: 0.74rem; line-height: 1.4; }
-    .free-banner-btn { font-size: 0.68rem; padding: 4px 10px; }
-    .support-card { flex-direction: column; text-align: center; padding: 14px; }
+    .free-banner-btn { font-size: 0.68rem; }
+
+    /* Hero */
     .hero { padding: 20px 0 14px; }
-    .hero h1 { font-size: 1.65rem !important; letter-spacing: -0.5px; line-height: 1.15; }
+    .hero h1 { font-size: 1.65rem !important; letter-spacing: -0.5px; }
     .hero p { font-size: 0.85rem; padding: 0 4px; }
     .hero-tag { font-size: 0.65rem; padding: 4px 10px; }
-    .toast { left: 12px; right: 12px; max-width: unset; bottom: 12px; }
-    .donation-options { gap: 6px; }
-    .topic-input { font-size: 0.88rem; padding: 10px 12px; }
+
+    /* Input Section - KEY FIX */
+    .input-section { padding: 14px 12px; margin-left: 0; margin-right: 0; width: 100%; }
+    .input-row { flex-direction: column; gap: 8px; width: 100%; }
+    .input-group { width: 100%; }
+    .topic-input { width: 100% !important; box-sizing: border-box; font-size: 0.88rem; }
+    .generate-btn { width: 100% !important; min-width: unset; box-sizing: border-box; }
     .options-row { gap: 6px; }
-    .select-field { font-size: 0.75rem; min-width: 0; flex: 1; padding: 7px 8px; }
+    .select-field { font-size: 0.75rem; min-width: 0; flex: 1; padding: 7px 6px; }
     .quick-topics { gap: 5px; }
     .quick-chip { font-size: 0.66rem; padding: 3px 8px; }
+
+    /* Results */
     .results-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .action-btns { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+    .action-btns { width: 100%; flex-wrap: wrap; }
     .action-btn { font-size: 0.72rem; padding: 5px 10px; }
     .tabs { gap: 2px; }
-    .tab { font-size: 0.72rem; padding: 7px 2px; }
-    .stat-val { font-size: 1.2rem; }
-    .stat-label { font-size: 0.6rem; }
-    .install-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; }
-    .profile-dropdown { min-width: 180px; right: -8px; }
-    .notes-body { padding: 14px 12px; }
-    .definition-box { padding: 10px 12px; font-size: 0.83rem; }
-    .key-point { font-size: 0.84rem; }
-    .qa-question { padding: 10px 12px; font-size: 0.82rem; }
-    .qa-answer { padding: 10px 12px 12px 40px; font-size: 0.8rem; }
+    .tab { font-size: 0.68rem; padding: 7px 2px; }
+    .stat-val { font-size: 1.1rem; }
+    .stat-label { font-size: 0.58rem; }
+
+    /* Cards/Notes */
+    .notes-body { padding: 12px 10px; }
+    .definition-box { padding: 10px 11px; font-size: 0.82rem; }
+    .key-point { font-size: 0.83rem; }
+    .qa-question { padding: 10px 11px; font-size: 0.82rem; }
+    .qa-answer { padding: 10px 11px 12px 38px; font-size: 0.8rem; }
     .card-question { font-size: 0.9rem; }
     .card-answer { font-size: 0.8rem; }
+
+    /* Support */
+    .support-card { flex-direction: column; text-align: center; padding: 14px 12px; }
     .support-card-text h4 { font-size: 0.9rem; }
     .support-card-text p { font-size: 0.75rem; }
+
+    /* Others */
+    .toast { left: 12px; right: 12px; max-width: unset; bottom: 12px; }
+    .profile-dropdown { min-width: 180px; right: -4px; }
+    .install-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; }
+    .mcq-question { font-size: 0.83rem; }
+    .mcq-option { font-size: 0.8rem; padding: 8px 10px; }
   }
 </style>
 </head>
