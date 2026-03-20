@@ -1252,78 +1252,10 @@ const DAILY_TOPICS = [
   'Thermodynamics','Computer Networks','Chemical Bonding'
 ];
 
-function getDailyTopic() {
-  const dayIdx = Math.floor(Date.now() / 86400000) % DAILY_TOPICS.length;
-  return DAILY_TOPICS[dayIdx];
-}
-
-function initDailyChallenge() {
-  const topic = getDailyTopic();
-  const today = new Date().toDateString();
-  const completed = localStorage.getItem('ss_dc_date') === today;
-  const dcTitle = document.getElementById('dcTitle');
-  const dcSub = document.getElementById('dcSub');
-  const dcAction = document.getElementById('dcAction');
-  if (dcTitle) dcTitle.textContent = '🎯 Today: ' + topic;
-  if (dcSub) dcSub.textContent = completed ? 'Challenge completed! +25 XP earned ✅' : 'Study this topic for +25 bonus XP!';
-  if (dcAction) {
-    if (completed) {
-      dcAction.innerHTML = '<div class="dc-completed">✅ Done!</div>';
-    } else {
-      dcAction.innerHTML = '<button class="dc-btn" onclick="startDailyChallenge()">Start →</button>';
-    }
-  }
-}
-
-function startDailyChallenge() {
-  const topic = getDailyTopic();
-  const today = new Date().toDateString();
-  document.getElementById('topicInput').value = topic;
-  generate().then(() => {
-    if (localStorage.getItem('ss_dc_date') !== today) {
-      localStorage.setItem('ss_dc_date', today);
-      addXP(25, 'Daily challenge bonus!');
-      showToast('🎯 Daily Challenge complete! +25 bonus XP 🔥');
-        }
-  }).catch(() => {});
-}
-
-// Override generate to return promise
-const _origGenerate = generate;
-
-// ── BRAIN ROT MODE ────────────────────────────────────────────────────────
-let brainRotTimer = null;
-let brainRotSeconds = 60;
-let brainRotQIdx = 0;
-let brainRotScore = 0;
-let brainRotQuestions = [];
-const brainRotCache = {};
-
-const BR_TOPICS = [
-  {q:'What converts sunlight to energy in plants?',a:'Chloroplast',w:['Mitochondria','Nucleus','Ribosome']},
-  {q:'F = ma is which law?',a:"Newton's 2nd Law",w:['1st Law','3rd Law','Gravity Law']},
-  {q:'DNA stands for?',a:'Deoxyribonucleic Acid',w:['Diribose Nucleic Acid','Deoxyribose Amino Acid','None']},
-  {q:'V = IR is?',a:"Ohm's Law",w:['Faraday Law','Newton Law','Boyle Law']},
-  {q:'Python is which type of language?',a:'High-level interpreted',w:['Low-level compiled','Machine language','Assembly']},
-  {q:'Who wrote the Indian Constitution?',a:'Dr. B.R. Ambedkar',w:['Nehru','Gandhi','Patel']},
-  {q:'Speed of light is?',a:'3×10⁸ m/s',w:['3×10⁶ m/s','3×10¹⁰ m/s','1×10⁸ m/s']},
-  {q:'Capital of France?',a:'Paris',w:['Berlin','Rome','Madrid']},
-  {q:'H₂O is the formula for?',a:'Water',w:['Hydrogen','Oxygen','Hydrogen Peroxide']},
-  {q:'Photosynthesis produces?',a:'Glucose & Oxygen',w:['CO₂ & Water','Protein & Fat','ATP only']},
-  {q:'World War 2 ended in?',a:'1945',w:['1939','1918','1950']},
-  {q:'CPU stands for?',a:'Central Processing Unit',w:['Core Processing Unit','Computer Power Unit','Central Program Unit']},
-  {q:'Largest planet in solar system?',a:'Jupiter',w:['Saturn','Uranus','Neptune']},
-  {q:'1 KB = how many bytes?',a:'1024',w:['1000','512','2048']},
-  {q:'mitosis results in how many cells?',a:'2 identical cells',w:['4 cells','1 cell','8 cells']},
-];
 
 function startBrainRot() {
   closeDropdown();
-  if (!currentNotes && BR_TOPICS.length) {
-    // Use pre-built questions
-    brainRotQuestions = [...BR_TOPICS].sort(() => Math.random() - 0.5).slice(0, 10);
-  } else if (currentNotes?.qa?.length >= 4) {
-    // Use current topic's Q&A
+  if (currentNotes?.qa?.length >= 4) {
     const qa = currentNotes.qa;
     const allAnswers = qa.map(q => q.a);
     brainRotQuestions = qa.slice(0, 10).map((item, i) => {
@@ -1402,7 +1334,7 @@ function endBrainRot() {
     [0, 30, '💀 Bhai padh le yaar...', 5],
     [30, 60, '😅 Thoda aur mehnat karo!', 10],
     [60, 80, '🔥 Not bad! Keep grinding!', 15],
-    [80, 95, '⚡ Damn you're good!', 20],
+    [80, 95, '⚡ Damn you\'re good!', 20],
     [95, 101, '🏆 LEGEND! Perfection!', 25],
   ];
   let msg = msgs[0], xpBonus = 5;
