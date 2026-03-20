@@ -60,12 +60,12 @@ app.post("/api/auth/google", async (req, res) => {
     const users = db.collection("users");
     await users.updateOne(
       { email },
-      { $set: { email, name, picture, googleId, updatedAt: new Date() }, $setOnInsert: { createdAt: new Date(), supporter: false } },
+      { $set: { email, name, picture, googleId, updatedAt: new Date() }, $setOnInsert: { createdAt: new Date(), supporter: false, xp: 0, streak: 0, totalTopics: 0 } },
       { upsert: true }
     );
     const user = await users.findOne({ email });
     const token = createToken({ email, name, picture });
-    res.json({ token, user: { email, name, picture, supporter: user.supporter } });
+    res.json({ token, user: { email, name, picture, supporter: user.supporter, xp: user.xp || 0, streak: user.streak || 0 } });
   } catch (err) {
     console.error("Google auth error:", err.message);
     res.status(401).json({ error: "Invalid Google token" });
@@ -77,29 +77,67 @@ app.get("/api/user/status", authMiddleware, async (req, res) => {
   try {
     const user = await db.collection("users").findOne({ email: req.user.email });
     if (!user) return res.status(404).json({ error: "User not found" });
-    res.json({ email: user.email, name: user.name, picture: user.picture, supporter: user.supporter });
+    res.json({ email: user.email, name: user.name, picture: user.picture, supporter: user.supporter, xp: user.xp || 0, streak: user.streak || 0 });
   } catch (err) {
     res.status(500).json({ error: "Failed to get user status" });
   }
 });
 
-// ── GENERATE NOTES — NO LIMITS ────────────────────────────────────────────────
+// ── UPDATE XP (sync from client) ─────────────────────────────────────────────
+app.post("/api/update-xp", authMiddleware, async (req, res) => {
+  const { xp, streak, totalTopics } = req.body;
+  try {
+    const user = await db.collection("users").findOne({ email: req.user.email });
+    const updateData = {};
+    // Only update if client value is higher (prevent cheating somewhat)
+    if (xp !== undefined && xp >= (user.xp || 0)) updateData.xp = xp;
+    if (streak !== undefined) updateData.streak = streak;
+    if (totalTopics !== undefined) updateData.totalTopics = totalTopics;
+    if (Object.keys(updateData).length) {
+      await db.collection("users").updateOne({ email: req.user.email }, { $set: updateData });
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update XP" });
+  }
+});
+
+// ── LEADERBOARD ───────────────────────────────────────────────────────────────
+app.get("/api/leaderboard", authMiddleware, async (req, res) => {
+  try {
+    const users = await db.collection("users")
+      .find({}, { projection: { name: 1, picture: 1, xp: 1, streak: 1, email: 1 } })
+      .sort({ xp: -1 })
+      .limit(20)
+      .toArray();
+    const result = users.map(u => ({
+      name: u.name,
+      picture: u.picture,
+      xp: u.xp || 0,
+      streak: u.streak || 0,
+      isMe: u.email === req.user.email
+    }));
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load leaderboard" });
+  }
+});
+
+// ── GENERATE NOTES ────────────────────────────────────────────────────────────
 app.post("/api/generate", authMiddleware, async (req, res) => {
   const { topic, level, depth } = req.body;
   if (!topic) return res.status(400).json({ error: "Topic is required" });
 
-  // Track usage in DB (no limits — just analytics)
   await db.collection("users").updateOne(
     { email: req.user.email },
     { $inc: { totalGenerations: 1 }, $set: { lastUsed: new Date() } }
   );
 
   const numPoints = depth === "quick" ? 5 : depth === "deep" ? 15 : 10;
-  const prompt = `You are an expert study assistant and educator. Generate accurate, detailed study notes for the topic: "${topic}" at ${level || "intermediate"} level.
-You MUST respond with ONLY valid JSON — no markdown fences, no explanation, no extra text before or after.
-Use this exact JSON structure:
-{"definition":"2-3 sentence overview","points":[{"title":"Concept","text":"Explanation with <strong>key terms</strong>"}],"formulas":["formula if applicable"],"qa":[{"q":"Question?","a":"Answer.","diff":"easy"}]}
-Rules: ${numPoints} points, EXACTLY 10 qa items (these are used for both Q&A and MCQ flashcards so make them varied and clear), diff = easy/medium/hard mix, empty formulas array if none, use <strong> tags in points text only`;
+  const prompt = `You are an expert study assistant. Generate study notes for: "${topic}" at ${level || "intermediate"} level.
+Respond ONLY with valid JSON, no markdown, no extra text.
+Structure: {"definition":"2-3 sentence overview","points":[{"title":"Concept","text":"Explanation with <strong>key terms</strong>"}],"formulas":["formula"],"qa":[{"q":"Question?","a":"Answer.","diff":"easy"}]}
+Rules: ${numPoints} points, EXACTLY 10 qa items (varied difficulty mix), empty formulas if none, <strong> tags in points only.`;
 
   try {
     const response = await fetch(GROQ_URL, {
@@ -108,7 +146,13 @@ Rules: ${numPoints} points, EXACTLY 10 qa items (these are used for both Q&A and
       body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "user", content: prompt }], temperature: 0.3, max_tokens: 2048 })
     });
     const data = await response.json();
-    if (!response.ok) return res.status(500).json({ error: data.error?.message || "Groq API error" });
+    if (!response.ok) {
+      const errMsg = data.error?.message || "";
+      if (errMsg.includes("rate_limit") || response.status === 429) {
+        return res.status(429).json({ error: "⚡ StudySnap is experiencing high traffic! Please try again in a few minutes." });
+      }
+      return res.status(500).json({ error: errMsg || "Groq API error" });
+    }
     const raw = data.choices?.[0]?.message?.content || "";
     const clean = raw.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
     res.json(JSON.parse(clean));
@@ -139,13 +183,10 @@ app.post("/api/create-order", authMiddleware, async (req, res) => {
 app.post("/api/verify-payment", authMiddleware, async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const expectedSignature = crypto.createHmac("sha256", RAZORPAY_KEY_SECRET).update(razorpay_order_id + "|" + razorpay_payment_id).digest("hex");
-  if (expectedSignature !== razorpay_signature) {
-    return res.status(400).json({ success: false, error: "Verification failed" });
-  }
-  // Mark user as supporter
+  if (expectedSignature !== razorpay_signature) return res.status(400).json({ success: false });
   await db.collection("users").updateOne(
     { email: req.user.email },
-    { $set: { supporter: true, supportedAt: new Date(), lastPaymentId: razorpay_payment_id } }
+    { $set: { supporter: true, supportedAt: new Date(), lastPaymentId: razorpay_payment_id }, $inc: { xp: 50 } }
   );
   res.json({ success: true });
 });
