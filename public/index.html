@@ -1862,6 +1862,9 @@
   document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key==='Enter') generate(); });
   document.addEventListener('keydown', e => {
     if (e.key==='Escape') { closeModal(); closeDropdown(); }
+    // Only trigger card controls when NOT typing in an input/textarea
+    const isTyping = ['INPUT','TEXTAREA'].includes(document.activeElement?.tagName);
+    if (isTyping) return;
     if (e.key==='ArrowRight' && currentCards.length) nextCard();
     if (e.key==='ArrowLeft' && currentCards.length) prevCard();
     if (e.key===' ' && currentCards.length) { e.preventDefault(); flipCard(); }
@@ -2462,7 +2465,7 @@
     const topic = document.getElementById('roomTopicInput').value.trim();
     if (!topic) { showToast('⚠️ Enter a topic first!'); return; }
     const btn = document.getElementById('roomStudyBtn');
-    if (btn) { btn.disabled = true; btn.textContent = 'Generating...'; }
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Generating...'; }
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -2486,9 +2489,35 @@
     roomNotes = notes;
     const area = document.getElementById('roomNotesArea');
     if (area) area.style.display = 'block';
+
+    // Show notes summary first
     const battleArea = document.getElementById('roomBattleArea');
-    if (battleArea) battleArea.innerHTML = '<div class="room-battle-waiting"><div class="room-battle-waiting-icon">⚔️</div><div>Topic: <strong>' + topic + '</strong><br/>Click "Start Battle!" to begin the MCQ showdown! 🔥</div></div>';
-    showToast('📚 ' + topic + ' notes ready for everyone!');
+    if (!battleArea) return;
+
+    const points = (notes.points || []).slice(0, 5).map((p, i) =>
+      '<div style="display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:0.82rem;line-height:1.4">'
+      + '<div style="min-width:20px;height:20px;background:rgba(124,92,252,0.15);border:1px solid rgba(124,92,252,0.3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--accent);flex-shrink:0;font-family:DM Mono,monospace">' + String(i+1).padStart(2,'0') + '</div>'
+      + '<div><strong>' + p.title + ':</strong> ' + p.text.replace(/<[^>]+>/g,'') + '</div>'
+      + '</div>'
+    ).join('');
+
+    battleArea.innerHTML =
+      '<div style="margin-bottom:14px">'
+      + '<div style="background:rgba(0,229,191,0.05);border:1px solid rgba(0,229,191,0.15);border-left:3px solid var(--accent2);border-radius:8px;padding:11px 13px;font-size:0.84rem;line-height:1.6;color:var(--text-muted);margin-bottom:12px">'
+      + '<div style="color:var(--accent2);font-size:0.68rem;font-family:DM Mono,monospace;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px">DEFINITION</div>'
+      + (notes.definition || '') + '</div>'
+      + '<div style="font-family:Syne,sans-serif;font-weight:700;font-size:0.84rem;margin-bottom:8px;color:var(--text)">📌 Key Points</div>'
+      + points
+      + '<div style="margin-top:8px;font-size:0.72rem;color:var(--text-dim);font-family:DM Mono,monospace;text-align:center">Showing top 5 points — study them well!</div>'
+      + '</div>'
+      + '<div style="background:linear-gradient(135deg,rgba(255,107,107,0.08),rgba(245,197,24,0.05));border:1px solid rgba(255,107,107,0.2);border-radius:10px;padding:14px;text-align:center">'
+      + '<div style="font-size:1.4rem;margin-bottom:6px">⚔️</div>'
+      + '<div style="font-family:Syne,sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:4px">Ready for the Battle?</div>'
+      + '<div style="font-size:0.76rem;color:var(--text-muted);margin-bottom:12px;font-family:DM Mono,monospace">Read the notes above, then click Start Battle!</div>'
+      + '<button onclick="startRoomBattle()" style="background:linear-gradient(135deg,#ff6b6b,#d44);border:none;border-radius:8px;padding:10px 24px;color:white;font-weight:700;cursor:pointer;font-family:Syne,sans-serif;font-size:0.84rem;transition:all 0.2s">⚔️ Start Battle!</button>'
+      + '</div>';
+
+    showToast('📚 ' + topic + ' notes ready! Study them before the battle 🔥');
   }
 
   async function startRoomBattle() {
