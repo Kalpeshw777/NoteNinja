@@ -83,11 +83,12 @@ app.get("/api/user/status", authMiddleware, async (req, res) => {
   }
 });
 
-// ── GENERATE NOTES ────────────────────────────────────────────────────────────
+// ── GENERATE NOTES — NO LIMITS ────────────────────────────────────────────────
 app.post("/api/generate", authMiddleware, async (req, res) => {
   const { topic, level, depth } = req.body;
   if (!topic) return res.status(400).json({ error: "Topic is required" });
 
+  // Track usage in DB (no limits — just analytics)
   await db.collection("users").updateOne(
     { email: req.user.email },
     { $inc: { totalGenerations: 1 }, $set: { lastUsed: new Date() } }
@@ -98,7 +99,7 @@ app.post("/api/generate", authMiddleware, async (req, res) => {
 You MUST respond with ONLY valid JSON — no markdown fences, no explanation, no extra text before or after.
 Use this exact JSON structure:
 {"definition":"2-3 sentence overview","points":[{"title":"Concept","text":"Explanation with <strong>key terms</strong>"}],"formulas":["formula if applicable"],"qa":[{"q":"Question?","a":"Answer.","diff":"easy"}]}
-Rules: ${numPoints} points, EXACTLY 10 qa items, diff = easy/medium/hard mix, empty formulas array if none, use <strong> tags in points text only`;
+Rules: ${numPoints} points, EXACTLY 10 qa items (these are used for both Q&A and MCQ flashcards so make them varied and clear), diff = easy/medium/hard mix, empty formulas array if none, use <strong> tags in points text only`;
 
   try {
     const response = await fetch(GROQ_URL, {
@@ -141,6 +142,7 @@ app.post("/api/verify-payment", authMiddleware, async (req, res) => {
   if (expectedSignature !== razorpay_signature) {
     return res.status(400).json({ success: false, error: "Verification failed" });
   }
+  // Mark user as supporter
   await db.collection("users").updateOne(
     { email: req.user.email },
     { $set: { supporter: true, supportedAt: new Date(), lastPaymentId: razorpay_payment_id } }
@@ -148,8 +150,11 @@ app.post("/api/verify-payment", authMiddleware, async (req, res) => {
   res.json({ success: true });
 });
 
+
+
 // ── STUDY ROOMS ───────────────────────────────────────────────────────────────
-const rooms = new Map();
+// In-memory rooms store (fast, no DB needed for ephemeral rooms)
+const rooms = new Map(); // code -> { members, clients, createdAt }
 
 function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -162,15 +167,17 @@ function getOrCreateRoom(code) {
   return rooms.get(code);
 }
 
-function broadcastToRoom(code, data) {
+function broadcastToRoom(code, data, excludeEmail = null) {
   const room = rooms.get(code);
   if (!room) return;
   const msg = 'data: ' + JSON.stringify(data) + '\n\n';
   room.clients.forEach(client => {
+    if (excludeEmail && client.email === excludeEmail) return;
     try { client.res.write(msg); } catch(e) {}
   });
 }
 
+// Clean up old rooms every 2 hours
 setInterval(() => {
   const now = Date.now();
   rooms.forEach((room, code) => {
@@ -178,6 +185,7 @@ setInterval(() => {
   });
 }, 3600000);
 
+// Create room
 app.post("/api/room/create", authMiddleware, (req, res) => {
   let code = generateCode();
   while (rooms.has(code)) code = generateCode();
@@ -185,6 +193,7 @@ app.post("/api/room/create", authMiddleware, (req, res) => {
   res.json({ code });
 });
 
+// Join room
 app.post("/api/room/join", authMiddleware, (req, res) => {
   const { code, name, picture } = req.body;
   const room = getOrCreateRoom(code);
@@ -193,6 +202,7 @@ app.post("/api/room/join", authMiddleware, (req, res) => {
   res.json({ success: true });
 });
 
+// Leave room
 app.post("/api/room/leave", authMiddleware, (req, res) => {
   const { code } = req.body;
   const room = rooms.get(code);
@@ -205,30 +215,41 @@ app.post("/api/room/leave", authMiddleware, (req, res) => {
   res.json({ success: true });
 });
 
+// SSE events stream
 app.get("/api/room/events", (req, res) => {
   const { code, token } = req.query;
   if (!code || !token) return res.status(400).end();
+  
+  // Verify token
   const payload = verifyToken(token);
   if (!payload) return res.status(401).end();
+
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.flushHeaders();
+
   const room = getOrCreateRoom(code);
   const client = { email: payload.email, res };
   room.clients.add(client);
+
+  // Send current members immediately
   res.write('data: ' + JSON.stringify({ type: 'members', members: room.members }) + '\n\n');
+
+  // Heartbeat every 25s
   const heartbeat = setInterval(() => {
     try { res.write('data: ' + JSON.stringify({ type: 'ping' }) + '\n\n'); }
     catch(e) { clearInterval(heartbeat); }
   }, 25000);
+
   req.on('close', () => {
     clearInterval(heartbeat);
     room.clients.delete(client);
   });
 });
 
+// Broadcast event to room
 app.post("/api/room/broadcast", authMiddleware, (req, res) => {
   const { code, type, ...data } = req.body;
   const room = rooms.get(code);
@@ -241,25 +262,41 @@ app.post("/api/room/broadcast", authMiddleware, (req, res) => {
 app.post("/api/doubt", authMiddleware, async (req, res) => {
   const { context, question } = req.body;
   if (!question) return res.status(400).json({ error: "Question is required" });
+
   const systemPrompt = `You are a friendly, smart study assistant helping an Indian student understand their topic.
-Context: ${(context || '').substring(0, 1500)}
-Rules: Answer clearly and simply. Use emojis occasionally. Keep answers concise (2-4 sentences). Give relatable Indian student examples when helpful.`;
+You have these notes as context: ${(context || '').substring(0, 1500)}
+
+Rules:
+- Answer clearly and simply
+- Use emojis occasionally to keep it engaging  
+- Keep answers concise (2-4 sentences) unless detail is needed
+- Give relatable Indian student examples when helpful
+- If you don't know something from the context, say so honestly`;
+
   try {
     const response = await fetch(GROQ_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${GROQ_API_KEY}` },
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
-        messages: [{ role: "system", content: systemPrompt }, { role: "user", content: question }],
-        temperature: 0.7, max_tokens: 512
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: question }
+        ],
+        temperature: 0.7,
+        max_tokens: 512
       })
     });
     const data = await response.json();
     if (!response.ok) {
-      if (response.status === 429) return res.status(429).json({ error: "AI is busy! Try again in a moment." });
+      const errMsg = data.error?.message || "";
+      if (errMsg.includes("rate_limit") || response.status === 429) {
+        return res.status(429).json({ error: "AI is busy! Please try again in a moment." });
+      }
       return res.status(500).json({ error: "Could not get answer. Try again!" });
     }
-    res.json({ answer: data.choices?.[0]?.message?.content || "Sorry, I could not answer that!" });
+    const answer = data.choices?.[0]?.message?.content || "Sorry, I could not answer that!";
+    res.json({ answer });
   } catch (err) {
     res.status(500).json({ error: "Failed to get answer. Please try again." });
   }
