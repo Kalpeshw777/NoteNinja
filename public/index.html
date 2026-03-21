@@ -72,33 +72,42 @@
   .app-screen.active { display: block; }
 
   /* HEADER */
-  header { padding: 13px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
-  .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
-  .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.5px; }
+  header { padding: 12px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+  .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; white-space: nowrap; }
   .logo-text span { color: var(--accent); }
-  .header-right { display: flex; align-items: center; gap: 7px; }
-  .free-plan-badge { border: 1px solid rgba(0,229,191,0.3); border-radius: 20px; padding: 4px 10px; font-size: 0.65rem; font-family: 'DM Mono', monospace; color: var(--accent2); background: rgba(0,229,191,0.06); white-space: nowrap; }
-  .support-btn { background: linear-gradient(135deg, var(--gold), #d4a017); border: none; border-radius: 16px; padding: 7px 13px; color: #0a0a0f; font-size: 0.74rem; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s; white-space: nowrap; }
-  .support-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,197,24,0.4); }
+  .header-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
-  /* THEME TOGGLE */
-  .theme-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 10px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; color: var(--text-muted); }
-  .theme-btn:hover { border-color: var(--accent); }
+  /* THEME BUTTON - always visible */
+  .theme-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 9px; cursor: pointer; font-size: 0.82rem; transition: all 0.2s; color: var(--text-muted); flex-shrink: 0; }
+  .theme-btn:hover { border-color: var(--accent); transform: rotate(15deg); }
+
+  /* SUPPORT BUTTON */
+  .support-btn { background: linear-gradient(135deg, var(--gold), #d4a017); border: none; border-radius: 16px; padding: 7px 12px; color: #0a0a0f; font-size: 0.74rem; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; position: relative; overflow: hidden; }
+  .support-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(245,197,24,0.4); }
+  .support-text { display: inline; }
+
+  /* PROFILE BUTTON with menu indicator */
+  .profile-wrap { position: relative; }
+  .profile-btn { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 8px 3px 3px; transition: all 0.2s; }
+  .profile-btn:hover { border-color: var(--accent); }
+  .user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; flex-shrink: 0; }
+  .menu-indicator { display: flex; flex-direction: column; gap: 3px; padding: 2px 0; }
+  .menu-indicator span { display: block; width: 14px; height: 2px; background: var(--text-muted); border-radius: 2px; transition: all 0.2s; }
+  .profile-btn:hover .menu-indicator span { background: var(--accent); }
 
   /* PROFILE DROPDOWN */
-  .profile-wrap { position: relative; }
-  .profile-btn { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
-  .user-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
-  .profile-dropdown { position: absolute; right: 0; top: calc(100% + 10px); background: var(--surface); border: 1px solid var(--border); border-radius: 14px; min-width: 200px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: none; overflow: hidden; z-index: 100; }
+  .profile-dropdown { position: absolute; right: 0; top: calc(100% + 8px); background: var(--surface); border: 1px solid var(--border); border-radius: 16px; min-width: 220px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); display: none; overflow: hidden; z-index: 100; }
   .profile-dropdown.open { display: block; animation: fadeUp 0.2s ease; }
-  .dropdown-user { padding: 14px 16px; border-bottom: 1px solid var(--border); }
-  .dropdown-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; color: var(--text); }
-  .dropdown-email { font-size: 0.72rem; color: var(--text-muted); font-family: 'DM Mono', monospace; }
-  .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; font-size: 0.83rem; cursor: pointer; transition: background 0.15s; color: var(--text-muted); border: none; background: none; width: 100%; text-align: left; }
-  .dropdown-item:hover { background: var(--surface2); color: var(--text); }
+  .dropdown-user { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, rgba(124,92,252,0.06), rgba(0,229,191,0.03)); }
+  .dropdown-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; color: var(--text); }
+  .dropdown-email { font-size: 0.7rem; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+  .dropdown-section-label { font-size: 0.6rem; font-family: 'DM Mono', monospace; color: var(--text-dim); padding: 8px 16px 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 0.83rem; cursor: pointer; transition: all 0.15s; color: var(--text-muted); border: none; background: none; width: 100%; text-align: left; }
+  .dropdown-item:hover { background: var(--surface2); color: var(--text); padding-left: 20px; }
   .dropdown-item.danger:hover { color: var(--accent3); }
-  .dropdown-item .item-icon { font-size: 1rem; width: 20px; text-align: center; }
+  .dropdown-item .item-icon { font-size: 0.95rem; width: 20px; text-align: center; flex-shrink: 0; }
 
   /* FREE BANNER */
   .free-banner { background: linear-gradient(135deg, rgba(0,229,191,0.08), rgba(124,92,252,0.06)); border: 1px solid rgba(0,229,191,0.2); border-radius: 12px; padding: 10px 16px; margin: 14px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
@@ -262,11 +271,16 @@
     html, body { overflow-x: hidden; width: 100%; }
     .container { padding: 0 12px; width: 100%; max-width: 100%; }
 
-    /* Header */
-    .free-plan-badge { display: none !important; }
-    .theme-btn { display: none !important; }
-    .header-right { gap: 6px; }
-    .support-btn { padding: 6px 10px; font-size: 0.72rem; }
+    /* Header - mobile optimized */
+    .header-right { gap: 5px; }
+    .theme-btn { padding: 5px 8px; font-size: 0.78rem; }
+    .support-btn { padding: 6px 9px; font-size: 0.7rem; }
+    .support-text { display: none; }
+    .support-btn::before { content: "☕"; }
+    .profile-btn { padding: 2px 6px 2px 2px; }
+    .user-avatar { width: 24px; height: 24px; }
+    .menu-indicator span { width: 12px; }
+    .profile-dropdown { min-width: 200px; right: -4px; }
 
     /* Free Banner */
     .free-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; gap: 6px; }
@@ -558,7 +572,6 @@
     .brainrot-timer { font-size: 2.6rem; }
     .brainrot-title { font-size: 1.2rem; }
     .notif-banner { flex-direction: column; align-items: flex-start; }
-    .brainrot-btn { padding: 6px 9px; font-size: 0.68rem; }
   }
 
 </style>
@@ -606,24 +619,32 @@
       <div class="logo-text">Study<span>Snap</span></div>
     </div>
     <div class="header-right">
-      <div class="free-plan-badge">✦ FREE</div>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
-      <button class="brainrot-btn" onclick="startBrainRot()">🧠 Brain Rot</button>
-      <button class="support-btn" onclick="openModal()">☕ Support Us</button>
+      <!-- Theme toggle always visible -->
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle Dark/Light Mode">🌙</button>
+      <!-- Support always visible -->
+      <button class="support-btn" onclick="openModal()">☕ <span class="support-text">Support</span></button>
+      <!-- Profile with menu indicator -->
       <div class="profile-wrap">
-        <button class="profile-btn" onclick="toggleDropdown()" id="profileBtn">
+        <button class="profile-btn" onclick="toggleDropdown()" id="profileBtn" title="Menu">
           <img class="user-avatar" id="userAvatar" src="" alt=""/>
+          <div class="menu-indicator">
+            <span></span><span></span><span></span>
+          </div>
         </button>
         <div class="profile-dropdown" id="profileDropdown">
+          <!-- User info -->
           <div class="dropdown-user">
             <div class="dropdown-name" id="dropdownName"></div>
             <div class="dropdown-email" id="dropdownEmail"></div>
           </div>
+          <!-- Menu label -->
+          <div class="dropdown-section-label">FEATURES</div>
+          <button class="dropdown-item" onclick="switchToMain(); closeDropdown()"><span class="item-icon">🏠</span> Home</button>
           <button class="dropdown-item" onclick="switchToHistory()"><span class="item-icon">📋</span> Notes History</button>
-          <button class="dropdown-item" onclick="switchToMain()"><span class="item-icon">🏠</span> Home</button>
-          <button class="dropdown-item" onclick="toggleTheme()"><span class="item-icon">🌙</span> Toggle Theme</button>
           <button class="dropdown-item" onclick="startBrainRot()"><span class="item-icon">🧠</span> Brain Rot Mode</button>
           <button class="dropdown-item" onclick="exportPDF()"><span class="item-icon">📄</span> Export PDF</button>
+          <div class="dropdown-section-label">SETTINGS</div>
+          <button class="dropdown-item" onclick="toggleTheme()"><span class="item-icon" id="themeIcon">🌙</span> <span id="themeLabel">Dark Mode</span></button>
           <button class="dropdown-item danger" onclick="logout()"><span class="item-icon">🚪</span> Logout</button>
         </div>
       </div>
@@ -867,8 +888,10 @@
   function applyTheme() {
     document.body.classList.toggle('light', !isDark);
     document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
-    const dropThemeItem = document.querySelector('.dropdown-item:nth-child(4) .item-icon');
-    if (dropThemeItem) dropThemeItem.textContent = isDark ? '🌙' : '☀️';
+    const ti = document.getElementById('themeIcon');
+    if (ti) ti.textContent = isDark ? '🌙' : '☀️';
+    const tl = document.getElementById('themeLabel');
+    if (tl) tl.textContent = isDark ? 'Dark Mode' : 'Light Mode';
   }
   function toggleTheme() {
     isDark = !isDark;
