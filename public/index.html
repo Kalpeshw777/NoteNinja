@@ -1102,6 +1102,198 @@
     .room-mcq-opts { grid-template-columns: 1fr; }
   }
 
+
+  /* ── SMART REVISION REMINDER ─────────────────────────────────────────────── */
+
+  /* Due today banner */
+  .revision-alert {
+    background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(245,197,24,0.08));
+    border: 1px solid rgba(255,107,107,0.25);
+    border-radius: 14px; padding: 13px 16px;
+    margin-bottom: 14px; display: none;
+    animation: fadeUp 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .revision-alert.show { display: block; }
+  .revision-alert-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 8px;
+  }
+  .revision-alert-title {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 0.88rem; display: flex; align-items: center; gap: 7px;
+  }
+  .revision-alert-count {
+    background: var(--accent3); color: white;
+    border-radius: 20px; padding: 2px 8px;
+    font-size: 0.65rem; font-family: 'DM Mono', monospace; font-weight: 700;
+  }
+  .revision-due-list { display: flex; flex-direction: column; gap: 6px; }
+  .revision-due-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .revision-due-topic {
+    font-size: 0.82rem; font-weight: 600; color: var(--text); flex: 1;
+  }
+  .revision-due-meta {
+    font-size: 0.68rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace; margin-top: 1px;
+  }
+  .revision-due-btns { display: flex; gap: 6px; flex-shrink: 0; }
+  .revision-study-btn {
+    background: linear-gradient(135deg, var(--accent), #5a3fcc);
+    border: none; border-radius: 7px; padding: 5px 11px;
+    color: white; font-size: 0.7rem; font-weight: 600;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+    white-space: nowrap;
+  }
+  .revision-study-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(124,92,252,0.4); }
+  .revision-done-btn {
+    background: rgba(0,229,191,0.1); border: 1px solid rgba(0,229,191,0.3);
+    border-radius: 7px; padding: 5px 9px; color: var(--accent2);
+    font-size: 0.7rem; cursor: pointer; font-family: 'DM Mono', monospace;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .revision-done-btn:hover { background: rgba(0,229,191,0.2); transform: scale(1.05); }
+  .revision-view-all {
+    font-size: 0.72rem; color: var(--accent); cursor: pointer;
+    font-family: 'DM Mono', monospace; text-decoration: underline;
+    background: none; border: none; padding: 0;
+  }
+
+  /* Full revision schedule page */
+  .revision-page { padding: 4px 0 30px; }
+  .revision-page-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 18px;
+  }
+  .revision-page-title {
+    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .revision-stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-bottom: 18px;
+  }
+  .revision-stat {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px; text-align: center;
+  }
+  .revision-stat-val {
+    font-family: 'Syne', sans-serif; font-size: 1.4rem;
+    font-weight: 800; color: var(--accent);
+  }
+  .revision-stat-val.urgent { color: var(--accent3); }
+  .revision-stat-val.ok { color: var(--accent2); }
+  .revision-stat-label {
+    font-size: 0.62rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace; margin-top: 2px;
+  }
+
+  /* Topic cards */
+  .revision-section-title {
+    font-family: 'Syne', sans-serif; font-size: 0.84rem;
+    font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+    color: var(--text-muted);
+  }
+  .revision-section-title span {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2px 8px;
+    font-size: 0.62rem; font-family: 'DM Mono', monospace;
+  }
+  .revision-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+    animation: fadeIn 0.3s ease both;
+  }
+  .revision-card:hover { border-color: var(--accent); transform: translateX(3px); }
+  .revision-card.overdue { border-color: rgba(255,107,107,0.4); background: rgba(255,107,107,0.04); }
+  .revision-card.due-today { border-color: rgba(245,197,24,0.4); background: rgba(245,197,24,0.04); }
+  .revision-card.upcoming { border-color: var(--border); }
+  .revision-card.done { opacity: 0.5; }
+  .revision-card-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 10px; margin-bottom: 8px;
+  }
+  .revision-topic-name {
+    font-family: 'Syne', sans-serif; font-size: 0.9rem;
+    font-weight: 700; flex: 1;
+  }
+  .revision-urgency-badge {
+    border-radius: 20px; padding: 3px 9px;
+    font-size: 0.62rem; font-family: 'DM Mono', monospace;
+    font-weight: 700; white-space: nowrap; flex-shrink: 0;
+  }
+  .badge-overdue { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid rgba(255,107,107,0.3); }
+  .badge-today { background: rgba(245,197,24,0.15); color: var(--gold); border: 1px solid rgba(245,197,24,0.3); }
+  .badge-upcoming { background: rgba(124,92,252,0.1); color: var(--accent); border: 1px solid rgba(124,92,252,0.2); }
+  .badge-done { background: rgba(0,229,191,0.1); color: var(--accent2); border: 1px solid rgba(0,229,191,0.2); }
+
+  /* Progress dots (memory strength) */
+  .revision-progress {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  }
+  .revision-progress-label {
+    font-size: 0.66rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace; white-space: nowrap;
+  }
+  .memory-dots { display: flex; gap: 4px; }
+  .memory-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border); transition: all 0.3s ease;
+  }
+  .memory-dot.filled { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+  .memory-dot.strong { background: var(--accent2); }
+
+  /* Next revision info */
+  .revision-next-info {
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  .revision-next-date {
+    font-size: 0.72rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .revision-actions { display: flex; gap: 6px; }
+  .rev-study-btn {
+    background: linear-gradient(135deg, var(--accent), #5a3fcc);
+    border: none; border-radius: 8px; padding: 6px 14px;
+    color: white; font-size: 0.74rem; font-weight: 600;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .rev-study-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,92,252,0.4); }
+  .rev-done-btn {
+    background: rgba(0,229,191,0.1); border: 1px solid rgba(0,229,191,0.3);
+    border-radius: 8px; padding: 6px 12px; color: var(--accent2);
+    font-size: 0.72rem; cursor: pointer; font-family: 'DM Mono', monospace;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .rev-done-btn:hover { background: rgba(0,229,191,0.2); transform: scale(1.03); }
+  .rev-delete-btn {
+    background: none; border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; color: var(--text-dim);
+    font-size: 0.72rem; cursor: pointer; font-family: 'DM Mono', monospace;
+    transition: all 0.15s;
+  }
+  .rev-delete-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  .revision-empty {
+    text-align: center; padding: 40px 20px;
+    color: var(--text-dim); font-family: 'DM Mono', monospace; font-size: 0.82rem;
+  }
+  .revision-empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5; }
+
+  @media(max-width:600px) {
+    .revision-stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
+    .revision-stat-val { font-size: 1.1rem; }
+    .revision-due-btns { flex-direction: column; gap: 4px; }
+  }
+
 </style>
 </head>
 <body>
@@ -1168,6 +1360,7 @@
           <!-- Menu label -->
           <div class="dropdown-section-label">FEATURES</div>
           <button class="dropdown-item" onclick="switchToMain(); closeDropdown()"><span class="item-icon">🏠</span> Home</button>
+          <button class="dropdown-item" onclick="switchToRevision()"><span class="item-icon">⏰</span> Revision Schedule</button>
           <button class="dropdown-item rooms-item" onclick="openStudyRooms()"><span class="item-icon">🏠</span> Study Rooms</button>
           <button class="dropdown-item" onclick="switchToHistory()"><span class="item-icon">📋</span> Notes History</button>
           <button class="dropdown-item" onclick="startBrainRot()"><span class="item-icon">🧠</span> Brain Rot Mode</button>
@@ -1201,6 +1394,15 @@
   <div class="free-banner">
     <div class="free-banner-text"><strong>🎉 StudySnap is completely free!</strong> No limits, no paywalls. Enjoy unlimited AI-powered notes.</div>
     <button class="free-banner-btn" onclick="openModal()">☕ Buy us a coffee</button>
+  </div>
+
+  <!-- REVISION ALERT BANNER -->
+  <div class="revision-alert" id="revisionAlert">
+    <div class="revision-alert-header">
+      <div class="revision-alert-title">⏰ Due for Revision <span class="revision-alert-count" id="revisionAlertCount">0</span></div>
+      <button class="revision-view-all" onclick="switchToRevision()">View All →</button>
+    </div>
+    <div class="revision-due-list" id="revisionDueList"></div>
   </div>
 
   <!-- MAIN VIEW -->
@@ -1352,6 +1554,22 @@
         </div>
         <button class="support-card-btn" onclick="openModal()">Support Us ❤️</button>
       </div>
+    </div>
+  </div>
+
+  <!-- REVISION VIEW -->
+  <div id="view-revision" style="display:none">
+    <div class="revision-page">
+      <div class="revision-page-header">
+        <div class="revision-page-title">⏰ Revision Schedule</div>
+        <button class="action-btn" onclick="switchView('main')">← Back</button>
+      </div>
+      <div class="revision-stats-row">
+        <div class="revision-stat"><div class="revision-stat-val urgent" id="revStatOverdue">0</div><div class="revision-stat-label">OVERDUE</div></div>
+        <div class="revision-stat"><div class="revision-stat-val" style="color:var(--gold)" id="revStatToday">0</div><div class="revision-stat-label">DUE TODAY</div></div>
+        <div class="revision-stat"><div class="revision-stat-val ok" id="revStatDone">0</div><div class="revision-stat-label">MASTERED</div></div>
+      </div>
+      <div id="revisionScheduleList"></div>
     </div>
   </div>
 
@@ -1607,6 +1825,8 @@
     notesHistory.push(entry);
     if (notesHistory.length > 20) notesHistory = notesHistory.slice(-20);
     localStorage.setItem('ss_history', JSON.stringify(notesHistory));
+    // Auto-add to revision schedule
+    addToRevisionSchedule(topic, data);
   }
 
   // ── GENERATE ───────────────────────────────────────────────────────────────
@@ -2657,6 +2877,261 @@
     document.getElementById('roomOverlay')?.classList.remove('active');
   }
 
+
+  // ── SMART REVISION REMINDER ─────────────────────────────────────────────────
+  // Ebbinghaus forgetting curve intervals (in days)
+  const REVISION_INTERVALS = [1, 3, 7, 14, 30];
+
+  function getRevisionSchedule() {
+    return JSON.parse(localStorage.getItem('ss_revision') || '[]');
+  }
+
+  function saveRevisionSchedule(schedule) {
+    localStorage.setItem('ss_revision', JSON.stringify(schedule));
+  }
+
+  function addToRevisionSchedule(topic, notes) {
+    const schedule = getRevisionSchedule();
+    const existing = schedule.findIndex(r => r.topic.toLowerCase() === topic.toLowerCase());
+    const now = Date.now();
+    if (existing >= 0) {
+      // Already exists - don't reset, just update notes
+      schedule[existing].notes = notes;
+      schedule[existing].lastStudied = now;
+    } else {
+      // Add new topic with first revision due in 1 day
+      schedule.push({
+        id: now,
+        topic,
+        notes,
+        studiedAt: now,
+        lastStudied: now,
+        revisionCount: 0,
+        nextRevision: now + (REVISION_INTERVALS[0] * 24 * 60 * 60 * 1000),
+        mastered: false,
+      });
+    }
+    saveRevisionSchedule(schedule);
+    checkRevisionsDue();
+  }
+
+  function markRevisionDone(id) {
+    const schedule = getRevisionSchedule();
+    const idx = schedule.findIndex(r => r.id === id);
+    if (idx < 0) return;
+    const item = schedule[idx];
+    item.revisionCount = (item.revisionCount || 0) + 1;
+    item.lastStudied = Date.now();
+    const nextInterval = REVISION_INTERVALS[Math.min(item.revisionCount, REVISION_INTERVALS.length - 1)];
+    if (item.revisionCount >= REVISION_INTERVALS.length) {
+      item.mastered = true;
+      item.nextRevision = null;
+      showToast('🏆 ' + item.topic + ' mastered! Now in long-term memory 🧠');
+    } else {
+      item.nextRevision = Date.now() + (nextInterval * 24 * 60 * 60 * 1000);
+      showToast('✅ Revised! Next reminder in ' + nextInterval + ' day' + (nextInterval > 1 ? 's' : '') + ' 🔔');
+    }
+    saveRevisionSchedule(schedule);
+    checkRevisionsDue();
+    renderRevisionPage();
+  }
+
+  function deleteRevision(id) {
+    const schedule = getRevisionSchedule().filter(r => r.id !== id);
+    saveRevisionSchedule(schedule);
+    checkRevisionsDue();
+    renderRevisionPage();
+  }
+
+  function getDueStatus(item) {
+    if (item.mastered) return 'mastered';
+    if (!item.nextRevision) return 'mastered';
+    const now = Date.now();
+    const diff = item.nextRevision - now;
+    const dayMs = 24 * 60 * 60 * 1000;
+    if (diff < -dayMs) return 'overdue';
+    if (diff <= dayMs) return 'today';
+    return 'upcoming';
+  }
+
+  function getDaysUntil(timestamp) {
+    const diff = timestamp - Date.now();
+    const days = Math.ceil(diff / (24 * 60 * 60 * 1000));
+    if (days <= 0) return 'Today';
+    if (days === 1) return 'Tomorrow';
+    return 'In ' + days + ' days';
+  }
+
+  function getDaysAgo(timestamp) {
+    const diff = Date.now() - timestamp;
+    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Yesterday';
+    return days + ' days ago';
+  }
+
+  function getMemoryStrength(item) {
+    return Math.min(item.revisionCount || 0, REVISION_INTERVALS.length);
+  }
+
+  function checkRevisionsDue() {
+    const schedule = getRevisionSchedule();
+    const due = schedule.filter(r => {
+      const status = getDueStatus(r);
+      return status === 'today' || status === 'overdue';
+    });
+
+    const alert = document.getElementById('revisionAlert');
+    const list = document.getElementById('revisionDueList');
+    const count = document.getElementById('revisionAlertCount');
+
+    if (!alert || !list) return;
+
+    if (due.length === 0) {
+      alert.classList.remove('show');
+      return;
+    }
+
+    alert.classList.add('show');
+    if (count) count.textContent = due.length;
+
+    list.innerHTML = due.slice(0, 3).map(item => {
+      const status = getDueStatus(item);
+      return '<div class="revision-due-item">'
+        + '<div>'
+          + '<div class="revision-due-topic">' + item.topic + '</div>'
+          + '<div class="revision-due-meta">' + (status === 'overdue' ? '⚠️ Overdue — ' : '📅 Due today — ') + 'studied ' + getDaysAgo(item.studiedAt) + '</div>'
+        + '</div>'
+        + '<div class="revision-due-btns">'
+          + '<button class="revision-study-btn" onclick="reviseNow(' + item.id + ')">📖 Revise</button>'
+          + '<button class="revision-done-btn" onclick="markRevisionDone(' + item.id + ')">✅</button>'
+        + '</div>'
+      + '</div>';
+    }).join('');
+
+    if (due.length > 3) {
+      list.innerHTML += '<div style="text-align:center;padding-top:6px"><button class="revision-view-all" onclick="switchToRevision()">+' + (due.length - 3) + ' more topics due &rarr;</button></div>';
+    }
+  }
+
+  function reviseNow(id) {
+    const schedule = getRevisionSchedule();
+    const item = schedule.find(r => r.id === id);
+    if (!item) return;
+    switchView('main');
+    document.getElementById('topicInput').value = item.topic;
+    markRevisionDone(id);
+    generate();
+  }
+
+  function switchToRevision() {
+    closeDropdown();
+    switchView('revision');
+    renderRevisionPage();
+  }
+
+  function renderRevisionPage() {
+    const schedule = getRevisionSchedule();
+    const list = document.getElementById('revisionScheduleList');
+    if (!list) return;
+
+    // Stats
+    const overdue = schedule.filter(r => getDueStatus(r) === 'overdue').length;
+    const today = schedule.filter(r => getDueStatus(r) === 'today').length;
+    const mastered = schedule.filter(r => r.mastered).length;
+    const ovEl = document.getElementById('revStatOverdue');
+    const tdEl = document.getElementById('revStatToday');
+    const dnEl = document.getElementById('revStatDone');
+    if (ovEl) ovEl.textContent = overdue;
+    if (tdEl) tdEl.textContent = today;
+    if (dnEl) dnEl.textContent = mastered;
+
+    if (!schedule.length) {
+      list.innerHTML = '<div class="revision-empty"><div class="revision-empty-icon">🧠</div><div>No topics in your revision schedule yet!<br/>Study something and it will appear here automatically.</div></div>';
+      return;
+    }
+
+    // Sort: overdue > today > upcoming > mastered
+    const sorted = [...schedule].sort((a, b) => {
+      const order = { overdue: 0, today: 1, upcoming: 2, mastered: 3 };
+      return (order[getDueStatus(a)] || 0) - (order[getDueStatus(b)] || 0);
+    });
+
+    const sections = [
+      { key: 'overdue', label: 'Overdue', empty: '' },
+      { key: 'today', label: 'Due Today', empty: '' },
+      { key: 'upcoming', label: 'Upcoming', empty: '' },
+      { key: 'mastered', label: 'Mastered', empty: '' },
+    ];
+
+    let html = '';
+    sections.forEach(sec => {
+      const items = sorted.filter(r => getDueStatus(r) === sec.key);
+      if (!items.length) return;
+      const sectionEmoji = {overdue:'⚠️', today:'📅', upcoming:'🔜', mastered:'🏆'};
+      html += '<div class="revision-section-title">' + (sectionEmoji[sec.key]||'') + ' ' + sec.label + ' <span>' + items.length + '</span></div>';
+      items.forEach(item => {
+        const status = getDueStatus(item);
+        const strength = getMemoryStrength(item);
+        const maxStr = REVISION_INTERVALS.length;
+        const dots = Array.from({length: maxStr}, (_, i) =>
+          '<div class="memory-dot' + (i < strength ? (strength >= maxStr ? ' strong' : ' filled') : '') + '"></div>'
+        ).join('');
+
+        let badgeClass = 'badge-upcoming', badgeText = 'Soon: ' + (item.nextRevision ? getDaysUntil(item.nextRevision) : '');
+        if (status === 'overdue') { badgeClass = 'badge-overdue'; badgeText = 'Overdue'; }
+        if (status === 'today') { badgeClass = 'badge-today'; badgeText = 'Due Today'; }
+        if (status === 'mastered') { badgeClass = 'badge-done'; badgeText = 'Mastered'; }
+
+        html += '<div class="revision-card ' + status + '">'
+          + '<div class="revision-card-top">'
+            + '<div class="revision-topic-name">' + item.topic + '</div>'
+            + '<div class="revision-urgency-badge ' + badgeClass + '">' + badgeText + '</div>'
+          + '</div>'
+          + '<div class="revision-progress">'
+            + '<div class="revision-progress-label">Memory strength:</div>'
+            + '<div class="memory-dots">' + dots + '</div>'
+          + '</div>'
+          + '<div class="revision-next-info">'
+            + '<div class="revision-next-date">Studied ' + getDaysAgo(item.studiedAt) + ' · Revised ' + (item.revisionCount || 0) + 'x</div>'
+            + '<div class="revision-actions">';
+
+        if (!item.mastered) {
+          html += '<button class="rev-study-btn" onclick="reviseNow(' + item.id + ')">📖 Revise Now</button>'
+               + '<button class="rev-done-btn" onclick="markRevisionDone(' + item.id + ')">✅ Done</button>';
+        }
+        html += '<button class="rev-delete-btn" onclick="deleteRevision(' + item.id + ')">🗑️</button>';
+        html += '</div></div></div>';
+      });
+    });
+
+    list.innerHTML = html;
+  }
+
+  // Check revisions on load
+  function initRevisionReminder() {
+    checkRevisionsDue();
+    // Check every hour
+    setInterval(checkRevisionsDue, 3600000);
+    // Send push notification if permission granted
+    if ('Notification' in window && Notification.permission === 'granted') {
+      const schedule = getRevisionSchedule();
+      const due = schedule.filter(r => getDueStatus(r) === 'today' || getDueStatus(r) === 'overdue');
+      if (due.length > 0 && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(reg => {
+          const notifTitle = 'StudySnap - Time to Revise!';
+          const notifBody = due.length + ' topic' + (due.length > 1 ? 's' : '') + ' due for revision today.';
+          reg.showNotification(notifTitle, {
+            body: notifBody,
+            icon: '/icon-192.png',
+            tag: 'studysnap-revision'
+          });
+        }).catch(function() {});
+      }
+    }
+  }
+
+  initRevisionReminder();
   showNotifBanner();
   init();
 </script>
