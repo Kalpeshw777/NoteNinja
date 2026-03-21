@@ -1562,7 +1562,7 @@
     <div class="revision-page">
       <div class="revision-page-header">
         <div class="revision-page-title">⏰ Revision Schedule</div>
-        <button class="action-btn" onclick="switchView('main')">← Back</button>
+        <button class="action-btn" onclick="switchToMain()">← Back</button>
       </div>
       <div class="revision-stats-row">
         <div class="revision-stat"><div class="revision-stat-val urgent" id="revStatOverdue">0</div><div class="revision-stat-label">OVERDUE</div></div>
@@ -1785,6 +1785,8 @@
   function switchToHistory() {
     closeDropdown();
     document.getElementById('mainView').style.display = 'none';
+    const vr = document.getElementById('view-revision');
+    if (vr) vr.style.display = 'none';
     document.getElementById('historyView').style.display = 'block';
     trackEvent('view_history');
     renderHistory();
@@ -1792,6 +1794,8 @@
   function switchToMain() {
     closeDropdown();
     document.getElementById('historyView').style.display = 'none';
+    const vr = document.getElementById('view-revision');
+    if (vr) vr.style.display = 'none';
     document.getElementById('mainView').style.display = 'block';
   }
 
@@ -3018,7 +3022,7 @@
     const schedule = getRevisionSchedule();
     const item = schedule.find(r => r.id === id);
     if (!item) return;
-    switchView('main');
+    switchToMain();
     document.getElementById('topicInput').value = item.topic;
     markRevisionDone(id);
     generate();
@@ -3026,7 +3030,9 @@
 
   function switchToRevision() {
     closeDropdown();
-    switchView('revision');
+    document.getElementById('mainView').style.display = 'none';
+    document.getElementById('historyView').style.display = 'none';
+    document.getElementById('view-revision').style.display = 'block';
     renderRevisionPage();
   }
 
