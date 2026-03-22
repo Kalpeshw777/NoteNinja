@@ -6,7 +6,12 @@ const { MongoClient } = require("mongodb");
 const { OAuth2Client } = require("google-auth-library");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://studysnap-tsxk.onrender.com']
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true
+}));
 app.use(express.json({ limit: '10kb' })); // Limit request body size
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -386,5 +391,27 @@ app.get("/api/feedback/all", authMiddleware, async (req, res) => {
   }
 });
 
+// ── HEALTH CHECK ─────────────────────────────────────────────────────────────
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString(), uptime: process.uptime() });
+});
+
+// ── 404 HANDLER ───────────────────────────────────────────────────────────────
+app.use((req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+  res.sendFile(require('path').join(__dirname, 'public', 'index.html'));
+});
+
+// ── GRACEFUL SHUTDOWN ─────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`StudySnap running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`StudySnap running on port ${PORT}`));
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully...');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
