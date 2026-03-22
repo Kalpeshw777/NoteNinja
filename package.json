@@ -1,7 +1,7 @@
 {
   "name": "studysnap",
   "version": "1.0.0",
-  "description": "AI Exam Helper App",
+  "description": "AI-Powered Exam Helper - Free Forever",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -12,5 +12,8 @@
     "express": "^4.18.2",
     "mongodb": "^6.3.0",
     "google-auth-library": "^9.6.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
