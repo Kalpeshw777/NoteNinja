@@ -7,8 +7,43 @@ const { OAuth2Client } = require("google-auth-library");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10kb' })); // Limit request body size
 app.use(express.static(path.join(__dirname, "public")));
+
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
+// Simple in-memory rate limiter per IP (100 requests per 15 minutes)
+const rateLimitMap = new Map();
+app.use('/api', (req, res, next) => {
+  const ip = req.ip || req.connection.remoteAddress || 'unknown';
+  const now = Date.now();
+  const windowMs = 15 * 60 * 1000;
+  const maxRequests = 100;
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+  } else {
+    const data = rateLimitMap.get(ip);
+    if (now > data.resetTime) {
+      rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+    } else if (data.count >= maxRequests) {
+      return res.status(429).json({ error: 'Too many requests. Please slow down.' });
+    } else {
+      data.count++;
+    }
+  }
+  next();
+});
+// Clean up rate limit map every 30 minutes
+setInterval(() => {
+  const now = Date.now();
+  rateLimitMap.forEach((data, ip) => { if (now > data.resetTime) rateLimitMap.delete(ip); });
+}, 1800000);
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
@@ -85,8 +120,12 @@ app.get("/api/user/status", authMiddleware, async (req, res) => {
 
 // ── GENERATE NOTES — NO LIMITS ────────────────────────────────────────────────
 app.post("/api/generate", authMiddleware, async (req, res) => {
-  const { topic, level, depth } = req.body;
+  let { topic, level, depth } = req.body;
   if (!topic) return res.status(400).json({ error: "Topic is required" });
+  topic = String(topic).trim().substring(0, 200).replace(/[<>]/g, "");
+  level = ["beginner","intermediate","advanced"].includes(level) ? level : "intermediate";
+  depth = ["quick","standard","deep"].includes(depth) ? depth : "standard";
+  if (topic.length < 2) return res.status(400).json({ error: "Topic too short" });
 
   // Track usage in DB (no limits — just analytics)
   await db.collection("users").updateOne(
@@ -305,8 +344,12 @@ Rules:
 
 // ── FEEDBACK ──────────────────────────────────────────────────────────────────
 app.post("/api/feedback", authMiddleware, async (req, res) => {
-  const { type, rating, message, page, userAgent } = req.body;
+  let { type, rating, message, page } = req.body;
   if (!message) return res.status(400).json({ error: "Message required" });
+  message = String(message).trim().substring(0, 1000);
+  type = ['suggestion','bug','love','other'].includes(type) ? type : 'other';
+  rating = Math.min(5, Math.max(0, parseInt(rating) || 0));
+  page = String(page || '').substring(0, 200);
   try {
     // Save to MongoDB
     await db.collection("feedback").insertOne({
