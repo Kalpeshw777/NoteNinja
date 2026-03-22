@@ -1078,133 +1078,132 @@
 
   /* ── MOBILE RESPONSIVE ───────────────────────────────── */
   @media(max-width:600px) {
-    .container { padding: 0 12px; }
-    /* Header */
+    html, body { overflow-x: hidden; }
+    .container { padding: 0 12px; width: 100%; max-width: 100%; }
+
+    /* ── HEADER ── */
     .header-right { gap: 5px; }
     .support-text { display: none; }
-    .support-btn { padding: 6px 10px; font-size: 0.72rem; }
-    .theme-btn { padding: 5px 8px; }
+    .support-btn { padding: 6px 10px; font-size: 0.7rem; }
+    .support-btn::before { content: '☕'; }
+    .theme-btn { padding: 5px 8px; font-size: 0.8rem; }
     .user-avatar { width: 24px; height: 24px; }
     .profile-btn { padding: 2px 7px 2px 2px; }
     .menu-indicator span { width: 11px; }
     .profile-dropdown { min-width: 200px; right: -4px; }
-    /* Login */
+
+    /* ── LOGIN ── */
     .login-brand { font-size: 1.8rem; }
     .login-features-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
     .login-feat-card { padding: 10px; }
     .login-stats { gap: 16px; }
     .login-stat-num { font-size: 1.3rem; }
     .login-card { padding: 28px 20px; }
-    /* Hero */
+
+    /* ── HERO ── */
     .hero { padding: 20px 0 14px; }
     .hero h1 { font-size: 1.65rem !important; letter-spacing: -0.5px; }
     .hero p { font-size: 0.85rem; padding: 0 4px; }
-    /* Input */
-    .input-section { padding: 14px 12px; }
+
+    /* ── INPUT SECTION ── */
+    .input-section { padding: 14px 12px; margin: 0; width: 100%; box-sizing: border-box; }
     .input-row { flex-direction: column; gap: 8px; }
-    .topic-input { width: 100% !important; font-size: 0.88rem; }
-    .generate-btn { width: 100% !important; min-width: unset; }
+    .input-group { width: 100%; }
+    .topic-input { width: 100% !important; box-sizing: border-box; font-size: 0.88rem; }
+    .generate-btn { width: 100% !important; min-width: unset; box-sizing: border-box; }
     .options-row { gap: 6px; }
-    .select-field { font-size: 0.75rem; min-width: 0; flex: 1; padding: 7px 6px; }
+    .select-field { font-size: 0.76rem; padding: 7px 8px; }
     .quick-topics { gap: 5px; }
     .quick-chip { font-size: 0.66rem; padding: 3px 8px; }
-    /* Results */
+
+    /* ── FREE BANNER ── */
+    .free-banner { flex-direction: column; padding: 10px 12px; gap: 6px; }
+    .free-banner-text { font-size: 0.76rem; line-height: 1.4; }
+
+    /* ── RESULTS ── */
     .results-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .action-btns { width: 100%; flex-wrap: wrap; }
-    .action-btn { font-size: 0.72rem; padding: 5px 10px; }
-    .tabs { gap: 2px; }
-    .tab { font-size: 0.68rem; padding: 7px 2px; }
+    .action-btns { width: 100%; flex-wrap: wrap; gap: 5px; }
+    .action-btn { font-size: 0.7rem; padding: 5px 9px; }
+    .stats-row { gap: 6px; }
+    .stat-card { padding: 10px 8px; }
     .stat-val { font-size: 1.1rem; }
+    .stat-label { font-size: 0.58rem; }
+
+    /* ── TABS ── */
+    .tabs { gap: 2px; padding: 2px; }
+    .tab { font-size: 0.66rem; padding: 7px 2px; }
+
+    /* ── NOTES ── */
     .notes-body { padding: 12px 10px; }
     .definition-box { padding: 10px 11px; font-size: 0.82rem; }
-    .key-point { font-size: 0.83rem; }
+    .key-point { font-size: 0.82rem; gap: 8px; }
+
+    /* ── QA ── */
     .qa-question { padding: 10px 11px; font-size: 0.82rem; }
-    .qa-answer { padding: 10px 11px 12px 38px; font-size: 0.8rem; }
-    /* Support */
+    .qa-answer { padding: 10px 11px 12px 36px; font-size: 0.8rem; }
+
+    /* ── FLASHCARDS ── */
+    .flashcard-wrap { height: 180px; }
+    .card-question { font-size: 0.88rem; }
+    .card-answer { font-size: 0.8rem; }
+    .card-controls { gap: 6px; }
+    .card-ctrl-btn { padding: 6px 12px; font-size: 0.74rem; }
+
+    /* ── MCQ ── */
+    .mcq-question { font-size: 0.83rem; }
+    .mcq-option { font-size: 0.8rem; padding: 8px 10px; }
+
+    /* ── SUPPORT CARD ── */
     .support-card { flex-direction: column; text-align: center; padding: 14px 12px; }
-    /* Toast */
-    .toast { left: 12px; right: 12px; max-width: unset; bottom: 12px; }
-    /* Misc */
+
+    /* ── MODALS ── */
+    .modal { padding: 24px 18px; }
+    .donation-options { gap: 6px; }
+    .toast { left: 12px; right: 12px; max-width: unset; bottom: 12px; font-size: 0.78rem; }
+
+    /* ── DOUBT SOLVER ── */
+    .doubt-messages { height: 240px; padding: 12px; }
+    .msg-bubble { max-width: 88%; font-size: 0.8rem; padding: 8px 11px; }
+    .doubt-chips { padding: 8px 12px; gap: 5px; }
+    .doubt-chip { font-size: 0.66rem; padding: 4px 10px; }
+    .doubt-input-row { padding: 10px 12px; gap: 6px; }
+    .doubt-input { font-size: 0.82rem; }
+
+    /* ── STUDY ROOMS ── */
+    .room-header { padding: 8px 10px; }
+    .room-code-badge { font-size: 0.7rem; letter-spacing: 1px; padding: 4px 8px; }
+    .room-topic-input-row { flex-direction: column; }
+    .room-study-btn { width: 100%; }
+    .room-chat-input { font-size: 0.78rem; }
+    .room-mcq-opts { grid-template-columns: 1fr 1fr; gap: 6px; }
+
+    /* ── REVISION ── */
+    .revision-stats-row { gap: 6px; }
+    .revision-stat-val { font-size: 1.1rem; }
+    .revision-due-btns { flex-direction: column; gap: 4px; }
+    .revision-actions { flex-wrap: wrap; }
+
+    /* ── FEEDBACK ── */
     .feedback-fab { bottom: 16px; right: 16px; width: 44px; height: 44px; }
     .feedback-overlay { padding: 12px; }
-    .feedback-panel { margin-bottom: 60px; }
+    .feedback-panel { margin-bottom: 56px; padding: 20px 16px; }
+
+    /* ── SHARE ── */
     .share-platforms { grid-template-columns: 1fr 1fr; }
+
+    /* ── BRAIN ROT ── */
     .brainrot-opts { grid-template-columns: 1fr 1fr; gap: 6px; }
-    .doubt-messages { height: 260px; }
-    .revision-stats-row { gap: 6px; }
-    .tour-tooltip { max-width: 260px; padding: 14px 16px; }
-    /* Rooms mobile */
-    .room-body { flex-direction: column; }
-    .room-sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border); height: 260px; flex-shrink: 0; }
-    .room-study { flex: 1; min-height: 0; overflow-y: auto; }
-    .room-mcq-opts { grid-template-columns: 1fr 1fr; }
-    .room-chat-input { font-size: 0.78rem; }
-  }
-  @media(max-width:480px) {
-    .room-sidebar { height: 240px; }
-    .room-mcq-opts { grid-template-columns: 1fr; }
-  }
+    .brainrot-opt { padding: 9px 7px; font-size: 0.78rem; }
+    .brainrot-timer { font-size: 2.6rem; }
+    .brainrot-title { font-size: 1.2rem; }
+    .brainrot-qcard { padding: 14px; }
 
-  /* ═══════════════════════════════════════════════
-     CINEMATIC UX ENHANCEMENTS
-  ═══════════════════════════════════════════════ */
+    /* ── INSTALL BANNER ── */
+    .install-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; }
 
-  /* ── SKELETON LOADING ──────────────────────────── */
-  .skeleton-wrap { display: none; padding: 0; }
-  .skeleton-wrap.active { display: block; }
-  .skeleton-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
-    overflow: hidden;
+    /* ── TOUR ── */
+    .tour-tooltip { max-width: calc(100vw - 24px); }
   }
-  .skeleton-line {
-    height: 12px; border-radius: 6px; margin-bottom: 10px;
-    background: linear-gradient(90deg,
-      var(--surface2) 25%,
-      rgba(124,92,252,0.08) 50%,
-      var(--surface2) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmerSkel 1.6s ease-in-out infinite;
-  }
-  .skeleton-line:last-child { margin-bottom: 0; }
-  .skeleton-line.w100 { width: 100%; }
-  .skeleton-line.w80  { width: 80%; }
-  .skeleton-line.w60  { width: 60%; }
-  .skeleton-line.w40  { width: 40%; }
-  .skeleton-line.h20  { height: 20px; }
-  .skeleton-line.h8   { height: 8px; }
-  @keyframes shimmerSkel {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  .skeleton-tabs {
-    display: flex; gap: 3px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: 12px;
-    padding: 3px; margin-bottom: 16px;
-  }
-  .skeleton-tab {
-    flex: 1; height: 34px; border-radius: 9px;
-    background: linear-gradient(90deg, var(--surface2) 25%, rgba(124,92,252,0.06) 50%, var(--surface2) 75%);
-    background-size: 200% 100%;
-    animation: shimmerSkel 1.6s ease-in-out infinite;
-  }
-  .skeleton-tab:nth-child(1) { animation-delay: 0s; }
-  .skeleton-tab:nth-child(2) { animation-delay: 0.1s; }
-  .skeleton-tab:nth-child(3) { animation-delay: 0.2s; }
-  .skeleton-tab:nth-child(4) { animation-delay: 0.3s; }
-  .skeleton-stat-row {
-    display: grid; grid-template-columns: repeat(3,1fr);
-    gap: 8px; margin-bottom: 16px;
-  }
-  .skeleton-stat {
-    height: 70px; border-radius: 10px;
-    background: linear-gradient(90deg, var(--surface2) 25%, rgba(124,92,252,0.06) 50%, var(--surface2) 75%);
-    background-size: 200% 100%;
-    animation: shimmerSkel 1.6s ease-in-out infinite;
-  }
-  .skeleton-stat:nth-child(2) { animation-delay: 0.15s; }
-  .skeleton-stat:nth-child(3) { animation-delay: 0.3s; }
 
   /* ── COLORED TOASTS ─────────────────────────────── */
   .toast {
@@ -1707,29 +1706,42 @@
 
     <!-- SKELETON LOADING -->
     <div class="skeleton-wrap" id="skeletonWrap">
-      <div class="skeleton-stat-row">
-        <div class="skeleton-stat"></div>
-        <div class="skeleton-stat"></div>
-        <div class="skeleton-stat"></div>
+      <!-- Skeleton: stats row -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+        <div class="skeleton-card" style="padding:14px;text-align:center">
+          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
+          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
+        </div>
+        <div class="skeleton-card" style="padding:14px;text-align:center">
+          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
+          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
+        </div>
+        <div class="skeleton-card" style="padding:14px;text-align:center">
+          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
+          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
+        </div>
       </div>
-      <div class="skeleton-tabs">
-        <div class="skeleton-tab"></div>
-        <div class="skeleton-tab"></div>
-        <div class="skeleton-tab"></div>
-        <div class="skeleton-tab"></div>
+      <!-- Skeleton: tabs -->
+      <div style="display:flex;gap:3px;margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:3px">
+        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
+        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
+        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
+        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
       </div>
-      <div class="skeleton-card">
-        <div class="skeleton-line w60 h20"></div>
-        <div class="skeleton-line w100" style="margin-top:14px"></div>
-        <div class="skeleton-line w100 h8"></div>
-        <div class="skeleton-line w80 h8"></div>
+      <!-- Skeleton: notes card 1 -->
+      <div class="skeleton-card" style="padding:16px;margin-bottom:12px">
+        <div class="skeleton-line" style="width:30%;height:14px;margin-bottom:14px"></div>
+        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
+        <div class="skeleton-line" style="width:90%;height:10px;margin-bottom:8px"></div>
+        <div class="skeleton-line" style="width:75%;height:10px"></div>
       </div>
-      <div class="skeleton-card">
-        <div class="skeleton-line w40 h20"></div>
-        <div class="skeleton-line w100" style="margin-top:14px"></div>
-        <div class="skeleton-line w100 h8"></div>
-        <div class="skeleton-line w80 h8"></div>
-        <div class="skeleton-line w60 h8"></div>
+      <!-- Skeleton: notes card 2 -->
+      <div class="skeleton-card" style="padding:16px;margin-bottom:12px">
+        <div class="skeleton-line" style="width:35%;height:14px;margin-bottom:14px"></div>
+        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
+        <div class="skeleton-line" style="width:85%;height:10px;margin-bottom:8px"></div>
+        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
+        <div class="skeleton-line" style="width:70%;height:10px"></div>
       </div>
     </div>
 
@@ -3423,30 +3435,7 @@
   }
 
   // ── COLORED TOAST ─────────────────────────────────────────────────────────────
-  function showToast(msg, type) {
-    const t = document.getElementById('toast');
-    if (!t) return;
-    // Auto-detect type from message if not specified
-    if (!type) {
-      const m = msg.toLowerCase();
-      if (m.includes('✅') || m.includes('success') || m.includes('done') || m.includes('saved') || m.includes('copied') || m.includes('mastered') || m.includes('revised') || m.includes('enabled') || m.includes('downloaded') || m.includes('welcome')) {
-        type = 'success';
-      } else if (m.includes('⚠️') || m.includes('error') || m.includes('failed') || m.includes('wrong') || m.includes('invalid') || m.includes('expired')) {
-        type = 'error';
-      } else if (m.includes('🏆') || m.includes('⭐') || m.includes('+') || m.includes('xp') || m.includes('gold') || m.includes('legend')) {
-        type = 'gold';
-      } else {
-        type = 'info';
-      }
-    }
-    t.className = 'toast toast-' + type;
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 3500);
-  }
-
-  // ── TAB SLIDE ANIMATION ───────────────────────────────────────────────────────
+  // showToast defined below
   function switchTab(name) {
     const tabs = ['notes', 'qa', 'flash', 'mcq'];
     document.querySelectorAll('.tab').forEach((t, i) => {
@@ -3521,14 +3510,17 @@
   function startLoadingAnimation() {
     let msgIdx = 0;
     loadingProgress = 0;
-    const fill = document.getElementById('loadingFill');
+    const fill = document.getElementById('loadingProgressFill');
     const textEl = document.getElementById('loadingText');
     const subEl = document.getElementById('loadingSub');
 
-    // Show skeleton after 0.8s
+    // Show skeleton after 0.8s only if still loading
     setTimeout(() => {
       const sk = document.getElementById('skeletonWrap');
-      if (sk && document.getElementById('loadingState')?.classList.contains('active')) {
+      const ls = document.getElementById('loadingState');
+      if (sk && ls && ls.classList.contains('active')) {
+        // Hide results while skeleton shows
+        document.getElementById('results')?.classList.remove('active');
         sk.classList.add('active');
       }
     }, 800);
@@ -3547,7 +3539,7 @@
   function stopLoadingAnimation() {
     clearInterval(loadingInterval);
     loadingInterval = null;
-    const fill = document.getElementById('loadingFill');
+    const fill = document.getElementById('loadingProgressFill');
     if (fill) { fill.style.width = '100%'; setTimeout(() => { fill.style.width = '0%'; }, 400); }
     const sk = document.getElementById('skeletonWrap');
     if (sk) sk.classList.remove('active');
@@ -3556,18 +3548,7 @@
   }
 
   // ── SCROLL TO RESULTS ON MOBILE ───────────────────────────────────────────────
-  function scrollToResults() {
-    if (window.innerWidth <= 768) {
-      const results = document.getElementById('results');
-      if (results) {
-        setTimeout(() => {
-          results.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    }
-  }
-
-  // ── STAGGERED CARD ANIMATIONS ─────────────────────────────────────────────────
+  // scrollToResults defined above
   function animateResultCards() {
     // Animate stat cards
     const statsRow = document.querySelector('.stats-row');
@@ -3593,42 +3574,8 @@
   }
 
   // ── TAB SLIDE ANIMATION ───────────────────────────────────────────────────────
-  function switchTab(name) {
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', ['notes','qa','flash','mcq'][i] === name);
-    });
-    document.querySelectorAll('.tab-content').forEach(c => {
-      c.classList.remove('active');
-    });
-    const target = document.getElementById('tab-' + name);
-    if (target) {
-      target.classList.add('active');
-    }
-    // Animate QA items when switching to qa tab
-    if (name === 'qa') {
-      setTimeout(() => {
-        document.querySelectorAll('.qa-item').forEach((item, i) => {
-          item.classList.remove('animate-in');
-          void item.offsetWidth;
-          item.style.animationDelay = (i * 0.03) + 's';
-          item.classList.add('animate-in');
-        });
-      }, 50);
-    }
-  }
-
-  // ── MOBILE KEYBOARD CLOSE ─────────────────────────────────────────────────────
-  function closeKeyboard() {
-    if (document.activeElement && document.activeElement.tagName === 'INPUT') {
-      document.activeElement.blur();
-    }
-  }
-
-
-  initRevisionReminder();
-  showNotifBanner();
-  checkIncomingShare();
-  init();
+  // switchTab defined above
+  // closeKeyboard defined above
 </script>
 
 <!-- BRAIN ROT OVERLAY -->
