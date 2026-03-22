@@ -1079,7 +1079,10 @@
   /* ── MOBILE RESPONSIVE ───────────────────────────────── */
   @media(max-width:600px) {
     html, body { overflow-x: hidden; }
-    .container { padding: 0 12px; width: 100%; max-width: 100%; }
+    .container { padding: 0 12px; width: 100%; max-width: 100%; overflow-x: hidden; }
+    .results { width: 100%; overflow-x: hidden; }
+    .stats-row { width: 100%; }
+    .tabs { width: 100%; }
 
     /* ── HEADER ── */
     .header-right { gap: 5px; }
@@ -1362,34 +1365,7 @@
   .light .toast.toast-error { background: rgba(220,60,60,0.1); }
   .light .toast.toast-info { background: rgba(100,70,220,0.1); }
 
-  /* ── SKELETON LOADING ─────────────────────────────────────────────────────── */
-  .skeleton-wrap { display: none; }
-  .skeleton-wrap.active { display: block; animation: fadeUp 0.3s ease; }
-  .skeleton-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
-    overflow: hidden;
-  }
-  .skeleton-line {
-    background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
-    background-size: 200% 100%;
-    animation: shimmerSkeleton 1.4s ease-in-out infinite;
-    border-radius: 6px; height: 14px; margin-bottom: 10px;
-  }
-  .skeleton-line.wide { width: 80%; }
-  .skeleton-line.medium { width: 60%; }
-  .skeleton-line.short { width: 40%; }
-  .skeleton-line.tall { height: 20px; width: 50%; }
-  @keyframes shimmerSkeleton {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  .skeleton-block {
-    background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
-    background-size: 200% 100%;
-    animation: shimmerSkeleton 1.4s ease-in-out infinite;
-    border-radius: 8px; height: 80px; margin-bottom: 10px;
-  }
+  
 
   /* ── STAGGERED CARD ANIMATIONS ────────────────────────────────────────────── */
   @keyframes cardSlideUp {
@@ -1704,46 +1680,6 @@
       </div>
     </div>
 
-    <!-- SKELETON LOADING -->
-    <div class="skeleton-wrap" id="skeletonWrap">
-      <!-- Skeleton: stats row -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
-        <div class="skeleton-card" style="padding:14px;text-align:center">
-          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
-          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
-        </div>
-        <div class="skeleton-card" style="padding:14px;text-align:center">
-          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
-          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
-        </div>
-        <div class="skeleton-card" style="padding:14px;text-align:center">
-          <div class="skeleton-line" style="width:40%;height:22px;margin:0 auto 6px"></div>
-          <div class="skeleton-line" style="width:70%;height:10px;margin:0 auto"></div>
-        </div>
-      </div>
-      <!-- Skeleton: tabs -->
-      <div style="display:flex;gap:3px;margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:3px">
-        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
-        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
-        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
-        <div class="skeleton-line" style="flex:1;height:34px;border-radius:9px"></div>
-      </div>
-      <!-- Skeleton: notes card 1 -->
-      <div class="skeleton-card" style="padding:16px;margin-bottom:12px">
-        <div class="skeleton-line" style="width:30%;height:14px;margin-bottom:14px"></div>
-        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
-        <div class="skeleton-line" style="width:90%;height:10px;margin-bottom:8px"></div>
-        <div class="skeleton-line" style="width:75%;height:10px"></div>
-      </div>
-      <!-- Skeleton: notes card 2 -->
-      <div class="skeleton-card" style="padding:16px;margin-bottom:12px">
-        <div class="skeleton-line" style="width:35%;height:14px;margin-bottom:14px"></div>
-        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
-        <div class="skeleton-line" style="width:85%;height:10px;margin-bottom:8px"></div>
-        <div class="skeleton-line" style="width:100%;height:10px;margin-bottom:8px"></div>
-        <div class="skeleton-line" style="width:70%;height:10px"></div>
-      </div>
-    </div>
 
     <div class="results" id="results">
       <div class="results-header">
@@ -3350,10 +3286,7 @@
     setTimeout(startTour, 300);
   }
 
-  // ── APPLY REVEAL CLASSES + NEON POLISH ────────────────────────────────────────
-  // ── APPLY REVEAL CLASSES + NEON POLISH ────────────────────────────────────────
   function applyRevealClasses() {
-    // Add reveal to results sections
     const toReveal = [
       { sel: '.stats-row', delay: 0 },
       { sel: '.tabs', delay: 1 },
@@ -3421,17 +3354,11 @@
 
   // Show skeleton after 400ms of loading (feels more natural)
   function showSkeleton() {
-    setTimeout(() => {
-      const sk = document.getElementById('skeletonWrap');
-      if (sk && document.getElementById('loadingState')?.classList.contains('active')) {
-        sk.classList.add('active');
-      }
-    }, 400);
+    
   }
 
   function hideSkeleton() {
-    const sk = document.getElementById('skeletonWrap');
-    if (sk) sk.classList.remove('active');
+
   }
 
   // ── COLORED TOAST ─────────────────────────────────────────────────────────────
@@ -3514,16 +3441,7 @@
     const textEl = document.getElementById('loadingText');
     const subEl = document.getElementById('loadingSub');
 
-    // Show skeleton after 0.8s only if still loading
-    setTimeout(() => {
-      const sk = document.getElementById('skeletonWrap');
-      const ls = document.getElementById('loadingState');
-      if (sk && ls && ls.classList.contains('active')) {
-        // Hide results while skeleton shows
-        document.getElementById('results')?.classList.remove('active');
-        sk.classList.add('active');
-      }
-    }, 800);
+
 
     clearInterval(loadingInterval);
     loadingInterval = setInterval(() => {
@@ -3541,8 +3459,7 @@
     loadingInterval = null;
     const fill = document.getElementById('loadingProgressFill');
     if (fill) { fill.style.width = '100%'; setTimeout(() => { fill.style.width = '0%'; }, 400); }
-    const sk = document.getElementById('skeletonWrap');
-    if (sk) sk.classList.remove('active');
+
     const textEl = document.getElementById('loadingText');
     if (textEl) { textEl.textContent = '🧠 Reading your topic...'; textEl.style.opacity = '1'; }
   }
