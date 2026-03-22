@@ -3576,6 +3576,45 @@
   // ── TAB SLIDE ANIMATION ───────────────────────────────────────────────────────
   // switchTab defined above
   // closeKeyboard defined above
+
+
+  // ── STARTUP ───────────────────────────────────────────────────────────────────
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  // Enter key on topic input
+  document.addEventListener('DOMContentLoaded', () => {
+    const ti = document.getElementById('topicInput');
+    if (ti) ti.addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+    const di = document.getElementById('doubtInput');
+    if (di) di.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendDoubt(); } });
+  });
+
+  // Global keydown
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closeDropdown(); closeFeedback(); closeShareModal(); }
+    const isTyping = ['INPUT','TEXTAREA'].includes(document.activeElement?.tagName);
+    if (e.key === 'Enter' && document.activeElement?.id === 'roomChatInput') { e.preventDefault(); sendRoomMessage(); return; }
+    if (isTyping) return;
+    if (e.key === 'ArrowRight' && currentCards.length) nextCard();
+    if (e.key === 'ArrowLeft' && currentCards.length) prevCard();
+    if (e.key === ' ' && currentCards.length) { e.preventDefault(); flipCard(); }
+  });
+
+  // Click outside dropdown closes it
+  document.addEventListener('click', function(e) {
+    const pb = document.getElementById('profileBtn');
+    const pd = document.getElementById('profileDropdown');
+    if (pb && pd && !pb.contains(e.target) && !pd.contains(e.target)) closeDropdown();
+  });
+
+  // Run app
+  initRevisionReminder();
+  showNotifBanner();
+  checkIncomingShare();
+  init();
 </script>
 
 <!-- BRAIN ROT OVERLAY -->
