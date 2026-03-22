@@ -822,39 +822,442 @@
     .revision-stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
   }
 
+
+  /* ═══════════════════════════════════════════════════════════════
+     CYBERPUNK NEON ENHANCEMENTS
+  ═══════════════════════════════════════════════════════════════ */
+
+  /* Enhanced CSS variables */
+  :root {
+    --neon-purple: rgba(124,92,252,0.8);
+    --neon-cyan: rgba(0,229,191,0.8);
+    --neon-red: rgba(255,107,107,0.8);
+    --glow-purple: 0 0 20px rgba(124,92,252,0.4), 0 0 60px rgba(124,92,252,0.1);
+    --glow-cyan: 0 0 20px rgba(0,229,191,0.4), 0 0 60px rgba(0,229,191,0.1);
+  }
+
+  /* ── PARTICLE CANVAS ──────────────────────────────────────────── */
+  #particleCanvas {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── NEW LOGIN PAGE ────────────────────────────────────────────── */
+  .login-screen {
+    position: relative; overflow: hidden;
+    background: #050508;
+  }
+  .login-screen::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(124,92,252,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0,229,191,0.08) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .login-layout {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; width: 100%; padding: 20px;
+    position: relative; z-index: 2;
+    flex-direction: column; gap: 0;
+  }
+
+  /* Left: hero text */
+  .login-hero {
+    flex: 1; max-width: 520px; padding: 40px 20px;
+    text-align: center;
+  }
+  .login-logo-big {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 20px; font-size: 32px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: var(--glow-purple);
+    animation: logoPulse 3s ease-in-out infinite;
+  }
+  @keyframes logoPulse {
+    0%,100% { box-shadow: 0 0 20px rgba(124,92,252,0.4), 0 0 60px rgba(124,92,252,0.1); }
+    50% { box-shadow: 0 0 40px rgba(124,92,252,0.7), 0 0 80px rgba(124,92,252,0.2); }
+  }
+  .login-brand {
+    font-family: 'Syne', sans-serif; font-size: 2.4rem;
+    font-weight: 800; letter-spacing: -1px; margin-bottom: 14px;
+  }
+  .login-brand span { color: var(--accent); }
+
+  /* Typewriter */
+  .typewriter-wrap {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem;
+    font-weight: 700; margin-bottom: 18px;
+    min-height: 36px; display: flex; align-items: center; justify-content: center;
+  }
+  .typewriter-text {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .typewriter-cursor {
+    display: inline-block; width: 3px; height: 1.2em;
+    background: var(--accent); margin-left: 3px;
+    animation: cursorBlink 0.8s step-end infinite;
+    vertical-align: middle; border-radius: 2px;
+  }
+  @keyframes cursorBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+  .login-tagline {
+    color: var(--text-muted); font-size: 0.9rem;
+    line-height: 1.6; margin-bottom: 28px; max-width: 380px; margin-left: auto; margin-right: auto;
+  }
+
+  /* Stats ticker */
+  .login-stats {
+    display: flex; gap: 20px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 32px;
+  }
+  .login-stat {
+    text-align: center;
+    animation: fadeUp 0.6s ease both;
+  }
+  .login-stat:nth-child(2) { animation-delay: 0.1s; }
+  .login-stat:nth-child(3) { animation-delay: 0.2s; }
+  .login-stat-num {
+    font-family: 'Syne', sans-serif; font-size: 1.6rem;
+    font-weight: 800; color: var(--accent2);
+    display: block; line-height: 1;
+  }
+  .login-stat-label {
+    font-size: 0.65rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Feature cards on login */
+  .login-features-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto;
+  }
+  .login-feat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(124,92,252,0.15);
+    border-radius: 12px; padding: 12px 14px;
+    text-align: left;
+    transition: all 0.2s ease;
+    animation: fadeUp 0.5s ease both;
+  }
+  .login-feat-card:nth-child(1) { animation-delay: 0.05s; }
+  .login-feat-card:nth-child(2) { animation-delay: 0.1s; }
+  .login-feat-card:nth-child(3) { animation-delay: 0.15s; }
+  .login-feat-card:nth-child(4) { animation-delay: 0.2s; }
+  .login-feat-card:nth-child(5) { animation-delay: 0.25s; }
+  .login-feat-card:nth-child(6) { animation-delay: 0.3s; }
+  .login-feat-card:hover {
+    border-color: rgba(124,92,252,0.4);
+    background: rgba(124,92,252,0.06);
+    transform: translateY(-2px);
+  }
+  .login-feat-icon { font-size: 1.3rem; margin-bottom: 5px; }
+  .login-feat-title {
+    font-family: 'Syne', sans-serif; font-size: 0.78rem;
+    font-weight: 700; margin-bottom: 2px; color: var(--text);
+  }
+  .login-feat-desc {
+    font-size: 0.66rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace; line-height: 1.4;
+  }
+
+  /* Login card (right side) */
+  .login-card {
+    background: rgba(18,18,26,0.9);
+    border: 1px solid rgba(124,92,252,0.25);
+    border-radius: 24px; padding: 36px 32px;
+    max-width: 380px; width: 100%;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 0 1px rgba(124,92,252,0.1), var(--glow-purple);
+    animation: fadeUp 0.7s cubic-bezier(0.34,1.56,0.64,1);
+    text-align: center;
+  }
+  .login-card-title {
+    font-family: 'Syne', sans-serif; font-size: 1.4rem;
+    font-weight: 800; margin-bottom: 6px;
+  }
+  .login-card-sub {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-bottom: 24px; line-height: 1.5;
+  }
+  .free-badge {
+    display: inline-block; background: rgba(0,229,191,0.1);
+    border: 1px solid rgba(0,229,191,0.3); border-radius: 20px;
+    padding: 4px 14px; font-size: 0.72rem; color: var(--accent2);
+    font-family: 'DM Mono', monospace; margin-bottom: 20px;
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(0,229,191,0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(0,229,191,0); }
+  }
+  .login-note { font-size: 0.68rem; color: var(--text-dim); margin-top: 14px; font-family: 'DM Mono', monospace; }
+
+  /* ── NEON BUTTON ENHANCEMENTS ──────────────────────────────────── */
+  .generate-btn {
+    position: relative; overflow: hidden;
+    animation: pulseGlow 3s ease-in-out infinite;
+    transition: all 0.2s !important;
+  }
+  .generate-btn:hover:not(:disabled) {
+    box-shadow: 0 0 30px rgba(124,92,252,0.6), 0 8px 28px rgba(124,92,252,0.4) !important;
+    transform: translateY(-2px) !important;
+  }
+  .generate-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%);
+    transform: translateX(-100%); transition: transform 0.5s ease;
+  }
+  .generate-btn:hover::before { transform: translateX(100%); }
+
+  .support-btn:hover {
+    box-shadow: 0 0 20px rgba(245,197,24,0.5) !important;
+  }
+  .room-create-btn:hover {
+    box-shadow: 0 0 25px rgba(0,229,191,0.5) !important;
+  }
+
+  /* ── XP TOAST ──────────────────────────────────────────────────── */
+  .xp-toast {
+    position: fixed; pointer-events: none;
+    z-index: 999; font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--gold); text-shadow: 0 0 20px rgba(245,197,24,0.8);
+    animation: xpFloat 1.8s ease forwards;
+    white-space: nowrap;
+  }
+  @keyframes xpFloat {
+    0% { opacity: 1; transform: translateY(0) scale(0.8); }
+    20% { opacity: 1; transform: translateY(-10px) scale(1.1); }
+    80% { opacity: 1; transform: translateY(-50px) scale(1); }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.9); }
+  }
+
+  /* ── SCROLL REVEAL ─────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.05s; }
+  .reveal-delay-2 { transition-delay: 0.1s; }
+  .reveal-delay-3 { transition-delay: 0.15s; }
+  .reveal-delay-4 { transition-delay: 0.2s; }
+
+  /* ── ONBOARDING TOUR ────────────────────────────────────────────── */
+  .tour-overlay {
+    position: fixed; inset: 0; z-index: 800;
+    pointer-events: none;
+    background: transparent;
+  }
+  .tour-overlay.active { pointer-events: all; }
+  .tour-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(5,5,8,0.85);
+    backdrop-filter: blur(2px);
+    z-index: 801;
+  }
+  .tour-spotlight {
+    position: fixed; z-index: 802;
+    border-radius: 12px;
+    box-shadow: 0 0 0 9999px rgba(5,5,8,0.85),
+                0 0 0 3px var(--accent),
+                0 0 30px rgba(124,92,252,0.5);
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  .tour-tooltip {
+    position: fixed; z-index: 803;
+    background: var(--surface);
+    border: 1px solid rgba(124,92,252,0.4);
+    border-radius: 16px; padding: 18px 20px;
+    max-width: 300px; width: 90%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 20px rgba(124,92,252,0.2);
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    animation: tooltipIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes tooltipIn {
+    from { opacity:0; transform: scale(0.9) translateY(8px); }
+    to { opacity:1; transform: scale(1) translateY(0); }
+  }
+  .tour-step-badge {
+    font-size: 0.62rem; font-family: 'DM Mono', monospace;
+    color: var(--accent); margin-bottom: 6px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .tour-tooltip-title {
+    font-family: 'Syne', sans-serif; font-size: 0.96rem;
+    font-weight: 800; margin-bottom: 6px;
+  }
+  .tour-tooltip-desc {
+    font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .tour-tooltip-btns { display: flex; gap: 8px; align-items: center; }
+  .tour-next-btn {
+    flex: 1; background: linear-gradient(135deg, var(--accent), #5a3fcc);
+    border: none; border-radius: 10px; padding: 9px 16px;
+    color: white; font-size: 0.82rem; font-weight: 700;
+    cursor: pointer; font-family: 'Syne', sans-serif;
+    transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .tour-next-btn:hover { transform: scale(1.03); box-shadow: 0 4px 14px rgba(124,92,252,0.5); }
+  .tour-skip-btn {
+    background: none; border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 14px; color: var(--text-muted);
+    font-size: 0.76rem; cursor: pointer; font-family: 'DM Mono', monospace;
+    transition: all 0.15s;
+  }
+  .tour-skip-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+  .tour-progress {
+    display: flex; gap: 5px; margin-bottom: 12px; justify-content: center;
+  }
+  .tour-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); transition: all 0.3s ease;
+  }
+  .tour-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+  .tour-dot.done { background: var(--accent2); }
+
+  /* Neon scan line effect on body */
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(124,92,252,0.01) 2px,
+      rgba(124,92,252,0.01) 4px
+    );
+    pointer-events: none; z-index: 0;
+    animation: scanMove 8s linear infinite;
+  }
+  @keyframes scanMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+  }
+
+  /* Neon glow on focused inputs */
+  .topic-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.12), 0 0 20px rgba(124,92,252,0.1);
+  }
+
+  /* Results cards hover neon */
+  .notes-card:hover {
+    border-color: rgba(124,92,252,0.3);
+    box-shadow: 0 4px 20px rgba(124,92,252,0.08);
+    transition: all 0.2s ease;
+  }
+  .qa-item:hover { box-shadow: 0 2px 12px rgba(124,92,252,0.1); }
+
+  @media(max-width:600px) {
+    .login-brand { font-size: 1.8rem; }
+    .login-features-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .login-feat-card { padding: 10px; }
+    .login-stats { gap: 14px; }
+    .login-stat-num { font-size: 1.3rem; }
+    .tour-tooltip { max-width: 260px; }
+  }
+
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
+<canvas id="particleCanvas"></canvas>
 <div class="login-screen" id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">📖</div>
-    <div class="login-title">Study<span>Snap</span></div>
-    <div class="free-badge">✦ 100% Free — Always</div>
-    <p class="login-subtitle">AI-powered exam notes, Q&A and flashcards. No limits, no paywalls.</p>
-    <div class="login-features">
-      <div class="login-feat"><span>✦</span> Unlimited topics — no daily cap</div>
-      <div class="login-feat"><span>✦</span> Notes, Q&A and Flashcards</div>
-      <div class="login-feat"><span>✦</span> Notes history saved</div>
-      <div class="login-feat"><span>☕</span> Support us if it helps you!</div>
-    </div>
-    <div class="google-btn-wrap">
-      <div id="g_id_onload"
-        data-client_id="69962419774-vdsivb8r701rd65bio8lacg6pi67f51u.apps.googleusercontent.com"
-        data-callback="handleGoogleLogin"
-        data-auto_prompt="false">
+  <div class="login-layout">
+
+    <!-- Hero side -->
+    <div class="login-hero">
+      <div class="login-logo-big">📖</div>
+      <div class="login-brand">Study<span>Snap</span></div>
+      <div class="typewriter-wrap">
+        <span class="typewriter-text" id="typewriterText"></span>
+        <span class="typewriter-cursor"></span>
       </div>
-      <div class="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="filled_black"
-        data-text="continue_with"
-        data-shape="rectangular"
-        data-logo_alignment="left">
+      <p class="login-tagline">
+        The AI study companion built for students who want to actually remember what they study — not just read it once and forget.
+      </p>
+      <div class="login-stats">
+        <div class="login-stat">
+          <span class="login-stat-num" id="statNotes">1,240+</span>
+          <span class="login-stat-label">Notes Generated</span>
+        </div>
+        <div class="login-stat">
+          <span class="login-stat-num" id="statUsers">380+</span>
+          <span class="login-stat-label">Students</span>
+        </div>
+        <div class="login-stat">
+          <span class="login-stat-num">100%</span>
+          <span class="login-stat-label">Free Forever</span>
+        </div>
+      </div>
+      <div class="login-features-grid">
+        <div class="login-feat-card">
+          <div class="login-feat-icon">🤖</div>
+          <div class="login-feat-title">AI Notes</div>
+          <div class="login-feat-desc">Instant structured notes for any topic</div>
+        </div>
+        <div class="login-feat-card">
+          <div class="login-feat-icon">🧠</div>
+          <div class="login-feat-title">Brain Rot Mode</div>
+          <div class="login-feat-desc">60-second rapid fire quiz challenge</div>
+        </div>
+        <div class="login-feat-card">
+          <div class="login-feat-icon">🏠</div>
+          <div class="login-feat-title">Study Rooms</div>
+          <div class="login-feat-desc">Battle friends with live MCQ</div>
+        </div>
+        <div class="login-feat-card">
+          <div class="login-feat-icon">⏰</div>
+          <div class="login-feat-title">Smart Revision</div>
+          <div class="login-feat-desc">Ebbinghaus forgetting curve reminders</div>
+        </div>
+        <div class="login-feat-card">
+          <div class="login-feat-icon">💬</div>
+          <div class="login-feat-title">AI Doubt Solver</div>
+          <div class="login-feat-desc">Chat AI about your topic instantly</div>
+        </div>
+        <div class="login-feat-card">
+          <div class="login-feat-icon">🎯</div>
+          <div class="login-feat-title">MCQ + Flashcards</div>
+          <div class="login-feat-desc">Auto-generated practice questions</div>
+        </div>
       </div>
     </div>
-    <p class="login-note">Free forever · No credit card needed</p>
+
+    <!-- Login card -->
+    <div class="login-card">
+      <div class="free-badge">✦ 100% Free — Always</div>
+      <div class="login-card-title">Start Studying Smarter</div>
+      <p class="login-card-sub">Sign in with Google to get instant AI notes, flashcards, MCQs and more — completely free.</p>
+      <div class="google-btn-wrap">
+        <div id="g_id_onload"
+          data-client_id="69962419774-vdsivb8r701rd65bio8lacg6pi67f51u.apps.googleusercontent.com"
+          data-callback="handleGoogleLogin"
+          data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="filled_black"
+          data-text="continue_with"
+          data-shape="rectangular"
+          data-logo_alignment="left">
+        </div>
+      </div>
+      <p class="login-note">No credit card · No limits · Just study</p>
+    </div>
+
   </div>
 </div>
 
@@ -1211,6 +1614,13 @@
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appScreen').classList.add('active');
   }
+  function showAppWithTour() {
+    showApp();
+    // Start tour for first-time users after a short delay
+    if (!localStorage.getItem('ss_tour_done')) {
+      setTimeout(startTour, 1200);
+    }
+  }
 
   // ── GOOGLE LOGIN ───────────────────────────────────────────────────────────
   async function processGoogleCredential(credential) {
@@ -1225,7 +1635,7 @@
       authToken = data.token;
       localStorage.setItem('ss_token', authToken);
       currentUser = data.user;
-      showApp();
+      showAppWithTour();
       updateUI();
       trackEvent('login', { method: 'google' });
       showToast('👋 Welcome, ' + currentUser.name.split(' ')[0] + '! Everything is free 🎉');
@@ -1338,6 +1748,9 @@
       if (!res.ok) throw new Error(data.error || 'Server error');
       saveToHistory(topic, level, depth, data);
       renderResults(topic, data);
+      const btn = document.getElementById('genBtn');
+      if (btn) { const r = btn.getBoundingClientRect(); showXPToast(10, r.left + r.width/2 - 20, r.top - 10); }
+      applyRevealClasses();
     } catch (err) {
       showToast('⚠️ Something went wrong. Please try again.');
     } finally {
@@ -2229,6 +2642,289 @@
     } catch(err){showToast('Failed to send. Please try again!');if(btn){btn.disabled=false;btn.textContent='Send Feedback';}}
   }
 
+
+  // ── PARTICLE CANVAS ───────────────────────────────────────────────────────────
+  (function initParticles() {
+    const canvas = document.getElementById('particleCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function Particle() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 1.5 + 0.5;
+      this.alpha = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.5 ? '124,92,252' : '0,229,191';
+    }
+
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + p.color + ',' + p.alpha + ')';
+        ctx.fill();
+      });
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = 'rgba(124,92,252,' + (0.08 * (1 - dist/100)) + ')';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // ── TYPEWRITER EFFECT ─────────────────────────────────────────────────────────
+  (function initTypewriter() {
+    const phrases = [
+      'Ace Any Exam',
+      'Study Smarter',
+      'Beat Everyone',
+      'Never Forget Again',
+      'Own the Leaderboard',
+    ];
+    const el = document.getElementById('typewriterText');
+    if (!el) return;
+    let phraseIdx = 0, charIdx = 0, deleting = false, paused = false;
+
+    function type() {
+      const current = phrases[phraseIdx];
+      if (paused) { setTimeout(type, 1400); paused = false; return; }
+      if (!deleting) {
+        el.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) { paused = true; deleting = true; setTimeout(type, 60); return; }
+        setTimeout(type, 80);
+      } else {
+        el.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; setTimeout(type, 300); return; }
+        setTimeout(type, 40);
+      }
+    }
+    type();
+  })();
+
+  // ── LIVE STATS COUNTER ────────────────────────────────────────────────────────
+  function animateCounter(el, target, suffix) {
+    if (!el) return;
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current.toLocaleString() + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 25);
+  }
+  function initStats() {
+    animateCounter(document.getElementById('statNotes'), 1240, '+');
+    animateCounter(document.getElementById('statUsers'), 380, '+');
+  }
+  // Run when login page is visible
+  setTimeout(initStats, 600);
+
+  // ── XP FLOATING TOAST ─────────────────────────────────────────────────────────
+  function showXPToast(amount, x, y) {
+    const el = document.createElement('div');
+    el.className = 'xp-toast';
+    el.textContent = '+' + amount + ' XP';
+    el.style.left = (x || window.innerWidth / 2 - 30) + 'px';
+    el.style.top = (y || 200) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1800);
+  }
+
+  // ── SCROLL REVEAL ─────────────────────────────────────────────────────────────
+  function initScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  // ── ONBOARDING TOUR ───────────────────────────────────────────────────────────
+  const TOUR_STEPS = [
+    {
+      target: '#topicInput',
+      title: '📝 Start Here — Type Any Topic',
+      desc: 'Enter anything you want to study — Newton Laws, Photosynthesis, French Revolution, Python Basics — and get instant AI notes.',
+      position: 'bottom',
+    },
+    {
+      target: '.tabs',
+      title: '🗂️ Four Ways to Study',
+      desc: 'Your notes come with 4 tabs: structured Notes, interactive Q&A, flip Flashcards, and auto-generated MCQ practice questions.',
+      position: 'top',
+    },
+    {
+      target: '.doubt-panel',
+      title: '🤖 AI Doubt Solver',
+      desc: 'After generating notes, ask the AI anything about the topic. It knows your notes context and answers instantly.',
+      position: 'top',
+    },
+    {
+      target: '#profileBtn',
+      title: '📋 All Features Here',
+      desc: 'Click your profile to access Study Rooms, Brain Rot Mode, PDF Export, Revision Schedule and more — everything is one tap away.',
+      position: 'bottom-left',
+    },
+    {
+      target: '.feedback-fab',
+      title: '💬 We Read Every Feedback',
+      desc: 'Found a bug? Have an idea? Tap this button anytime to send us feedback. We actually read and act on every message!',
+      position: 'top-right',
+    },
+  ];
+
+  let tourStep = 0;
+  let tourActive = false;
+
+  function startTour() {
+    if (localStorage.getItem('ss_tour_done')) return;
+    tourActive = true;
+    tourStep = 0;
+    document.getElementById('tourOverlay').classList.add('active');
+    showTourStep(0);
+  }
+
+  function showTourStep(step) {
+    const s = TOUR_STEPS[step];
+    if (!s) { endTour(); return; }
+
+    const total = TOUR_STEPS.length;
+    const badge = document.getElementById('tourStepBadge');
+    const title = document.getElementById('tourTitle');
+    const desc = document.getElementById('tourDesc');
+    const nextBtn = document.getElementById('tourNextBtn');
+    const progress = document.getElementById('tourProgress');
+
+    if (badge) badge.textContent = 'STEP ' + (step + 1) + ' OF ' + total;
+    if (title) title.textContent = s.title;
+    if (desc) desc.textContent = s.desc;
+    if (nextBtn) nextBtn.textContent = step === total - 1 ? 'Done!' : 'Next →';
+
+    // Progress dots
+    if (progress) {
+      progress.innerHTML = TOUR_STEPS.map((_, i) =>
+        '<div class="tour-dot' + (i < step ? ' done' : i === step ? ' active' : '') + '"></div>'
+      ).join('');
+    }
+
+    // Find target element
+    const target = document.querySelector(s.target);
+    const spotlight = document.getElementById('tourSpotlight');
+    const tooltip = document.getElementById('tourTooltip');
+
+    if (target && spotlight) {
+      const rect = target.getBoundingClientRect();
+      const pad = 8;
+      spotlight.style.left = (rect.left - pad) + 'px';
+      spotlight.style.top = (rect.top - pad) + 'px';
+      spotlight.style.width = (rect.width + pad * 2) + 'px';
+      spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+      // Position tooltip
+      if (tooltip) {
+        const ttW = 300, ttH = 180;
+        let left = rect.left;
+        let top;
+
+        if (s.position === 'bottom' || s.position === 'bottom-left') {
+          top = rect.bottom + pad + 12;
+        } else {
+          top = rect.top - ttH - 12;
+        }
+        if (s.position === 'bottom-left' || s.position === 'top-right') {
+          left = Math.max(8, rect.right - ttW);
+        }
+
+        // Keep in viewport
+        left = Math.max(8, Math.min(left, window.innerWidth - ttW - 8));
+        top = Math.max(8, Math.min(top, window.innerHeight - ttH - 8));
+
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        tooltip.style.right = 'auto';
+        tooltip.style.bottom = 'auto';
+        tooltip.style.animation = 'tooltipIn 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+      }
+    } else if (spotlight) {
+      // Hide spotlight if no target
+      spotlight.style.width = '0'; spotlight.style.height = '0';
+    }
+  }
+
+  function nextTourStep() {
+    tourStep++;
+    if (tourStep >= TOUR_STEPS.length) { endTour(); return; }
+    showTourStep(tourStep);
+  }
+
+  function skipTour() { endTour(); }
+
+  function endTour() {
+    tourActive = false;
+    document.getElementById('tourOverlay').classList.remove('active');
+    localStorage.setItem('ss_tour_done', '1');
+    showToast('Tour complete! Explore all features from the profile menu 🚀');
+  }
+
+  // ── APPLY REVEAL CLASSES + NEON POLISH ────────────────────────────────────────
+  function applyRevealClasses() {
+    // Add reveal to results sections
+    const toReveal = [
+      { sel: '.stats-row', delay: 0 },
+      { sel: '.tabs', delay: 1 },
+      { sel: '#tab-notes .notes-card:nth-child(1)', delay: 0 },
+      { sel: '#tab-notes .notes-card:nth-child(2)', delay: 1 },
+      { sel: '#tab-notes .notes-card:nth-child(3)', delay: 2 },
+      { sel: '.support-card', delay: 3 },
+      { sel: '.doubt-panel', delay: 4 },
+    ];
+    toReveal.forEach(({ sel, delay }) => {
+      const el = document.querySelector(sel);
+      if (el && !el.classList.contains('reveal')) {
+        el.classList.add('reveal', 'reveal-delay-' + delay);
+      }
+    });
+    initScrollReveal();
+  }
+
+
   initRevisionReminder();
   showNotifBanner();
   checkIncomingShare();
@@ -2379,6 +3075,23 @@
       <div class="feedback-success-icon">🎉</div>
       <div class="feedback-success-text">Thank you so much!</div>
       <div class="feedback-success-sub">Your feedback helps us improve StudySnap 🙏</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ONBOARDING TOUR -->
+<div class="tour-overlay" id="tourOverlay">
+  <div class="tour-backdrop" onclick="skipTour()"></div>
+  <div class="tour-spotlight" id="tourSpotlight"></div>
+  <div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-progress" id="tourProgress"></div>
+    <div class="tour-step-badge" id="tourStepBadge">STEP 1 OF 5</div>
+    <div class="tour-tooltip-title" id="tourTitle"></div>
+    <div class="tour-tooltip-desc" id="tourDesc"></div>
+    <div class="tour-tooltip-btns">
+      <button class="tour-skip-btn" onclick="skipTour()">Skip</button>
+      <button class="tour-next-btn" id="tourNextBtn" onclick="nextTourStep()">Next →</button>
     </div>
   </div>
 </div>
