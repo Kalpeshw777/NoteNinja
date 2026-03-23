@@ -1,4 +1,4 @@
-const CACHE = 'studysnap-v3';
+const CACHE = 'noteninja-v4';
 const ASSETS = ['/', '/index.html'];
 
 self.addEventListener('install', e => {
