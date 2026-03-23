@@ -167,15 +167,19 @@
   }
   .login-logo-big {
     width: 72px; height: 72px;
-    background: linear-gradient(135deg, #e63329, #b5231a);
-    border-radius: 20px; font-size: 32px;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px;
+    margin: 0 auto 20px; line-height: 0;
     animation: logoPulse 3s ease-in-out infinite;
+    border-radius: 20px;
+    filter: drop-shadow(0 0 20px rgba(230,51,41,0.5));
+  }
+  .login-logo-big svg {
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(230,51,41,0.4), 0 2px 8px rgba(0,0,0,0.5);
   }
   @keyframes logoPulse {
-    0%,100% { box-shadow: 0 0 20px rgba(124,92,252,0.4), 0 0 60px rgba(124,92,252,0.1); }
-    50% { box-shadow: 0 0 40px rgba(124,92,252,0.7), 0 0 80px rgba(124,92,252,0.2); }
+    0%,100% { filter: drop-shadow(0 0 12px rgba(230,51,41,0.4)); }
+    50% { filter: drop-shadow(0 0 28px rgba(230,51,41,0.8)); }
   }
   .login-brand {
     font-family: 'Syne', sans-serif; font-size: 3rem;
@@ -316,11 +320,16 @@
     position: relative; z-index: 10; gap: 12px;
   }
   .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .logo-icon {
-    width: 30px; height: 30px;
-    background: linear-gradient(135deg, #e63329, #b5231a);
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    font-size: 14px; flex-shrink: 0;
+  .logo-icon-svg {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; line-height: 0;
+  }
+  .logo-icon-svg svg {
+    display: block;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .logo:hover .logo-icon-svg svg {
+    transform: rotate(-8deg) scale(1.08);
   }
   .logo-text {
     font-family: 'Syne', sans-serif; font-weight: 800;
@@ -1603,7 +1612,17 @@
 
     <!-- Hero side -->
     <div class="login-hero">
-      <div class="login-logo-big">🥷</div>
+      <div class="login-logo-big"><svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="72" height="72" rx="18" fill="#e63329"/>
+  <rect width="72" height="72" rx="18" fill="url(#nn-grad)" opacity="0.3"/>
+  <defs>
+    <linearGradient id="nn-grad" x1="0" y1="0" x2="72" y2="72">
+      <stop offset="0%" stop-color="white" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="black" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <text x="36" y="50" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="32" font-weight="900" fill="white" letter-spacing="-2">NN</text>
+</svg></div>
       <div class="login-brand">Note<span>Ninja</span></div>
       <div class="typewriter-wrap">
         <span class="typewriter-text" id="typewriterText"></span>
@@ -1691,7 +1710,10 @@
 <div class="container">
   <header>
     <div class="logo">
-      <div class="logo-icon">🥷</div>
+      <div class="logo-icon-svg"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+  <rect width="32" height="32" rx="8" fill="#e63329"/>
+  <text x="16" y="22" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="14" font-weight="900" fill="white" letter-spacing="-1">NN</text>
+</svg></div>
       <div class="logo-text">Note<span>Ninja</span></div>
     </div>
     <div class="header-right">
@@ -2590,7 +2612,16 @@
       const W=210, M=16, CW=W-M*2; let y=0;
       const chk=(n=10)=>{if(y+n>272){doc.addPage();y=20;}};
       doc.setFillColor(124,92,252); doc.rect(0,0,W,34,'F');
-      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.text('NoteNinja',M,14);
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setFillColor(230,51,41);
+      doc.roundedRect(M,6,20,20,3,3,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9);
+      doc.text('NN',M+10,18.5,{align:'center'});
+      doc.setTextColor(255,255,255);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(16);
+      doc.text('NoteNinja',M+25,18);
       doc.setFontSize(7.5); doc.setFont('helvetica','normal'); doc.text('AI-Powered Exam Helper  noteninja.is-a.dev',M,21);
       doc.text('Generated: '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),M,28);
       y=42;
