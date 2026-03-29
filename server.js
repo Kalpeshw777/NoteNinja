@@ -20,7 +20,11 @@ app.use((req, res, next) => {
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://noteninja.is-a.dev', 'https://studysnap-tsxk.onrender.com']
+    ? [
+        'https://noteninja.online',
+        'https://www.noteninja.online',
+        'https://studysnap-tsxk.onrender.com'
+      ]
     : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true
 }));
@@ -385,7 +389,7 @@ app.post("/api/feedback", authMiddleware, async (req, res) => {
       rating: rating || 0,
       message,
       page: page || '',
-      userAgent: userAgent || '',
+      userAgent: req.headers['user-agent'] || '',
       createdAt: new Date()
     });
 
