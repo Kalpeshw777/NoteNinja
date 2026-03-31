@@ -1,7 +1,7 @@
 {
-  "name": "studysnap",
-  "version": "1.0.0",
-  "description": "AI-Powered Exam Helper - Free Forever",
+  "name": "noteninja",
+  "version": "2.0.0",
+  "description": "NoteNinja — AI-Powered Exam Helper for JEE, NEET, B.Tech & Board Exams",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
