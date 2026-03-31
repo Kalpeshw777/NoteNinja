@@ -417,6 +417,221 @@ app.get("/api/feedback/all", authMiddleware, async (req, res) => {
   }
 });
 
+// ── SEO: robots.txt ───────────────────────────────────────────────────────────
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send(
+`User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://noteninja.online/sitemap.xml`
+  );
+});
+
+// ── SEO: sitemap.xml ──────────────────────────────────────────────────────────
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml');
+  const now = new Date().toISOString().split('T')[0];
+  res.send(
+`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://noteninja.online/</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://noteninja.online/privacy-policy</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://noteninja.online/terms</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>`
+  );
+});
+
+// ── ADSENSE: ads.txt (required for AdSense revenue) ──────────────────────────
+app.get('/ads.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('google.com, pub-6423436827122681, DIRECT, f08c47fec0942fa0');
+});
+
+// ── PRIVACY POLICY ────────────────────────────────────────────────────────────
+app.get('/privacy-policy', (req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  const year = new Date().getFullYear();
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — NoteNinja</title>
+  <meta name="description" content="Privacy Policy for NoteNinja — AI-powered exam helper for Indian students."/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423436827122681" crossorigin="anonymous"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#080808;color:#e0e0e0;line-height:1.8}
+    .header{background:#111;border-bottom:1px solid #222;padding:16px 24px;display:flex;align-items:center;gap:12px}
+    .header a{color:#e63329;text-decoration:none;font-weight:700;font-size:1.1rem}
+    .header span{color:#555;font-size:0.85rem}
+    .container{max-width:760px;margin:0 auto;padding:40px 24px 80px}
+    h1{font-size:1.8rem;color:#f0f0f0;margin-bottom:6px}
+    .date{color:#555;font-size:0.82rem;margin-bottom:36px;font-family:monospace}
+    h2{font-size:1.05rem;color:#e63329;margin:32px 0 10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.5px}
+    p{color:#aaa;margin-bottom:12px;font-size:0.92rem}
+    a{color:#e63329}
+    ul{color:#aaa;font-size:0.92rem;padding-left:20px;margin-bottom:12px}
+    ul li{margin-bottom:6px}
+    .footer{margin-top:40px;padding-top:20px;border-top:1px solid #222;color:#555;font-size:0.8rem}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="/">🥷 NoteNinja</a>
+    <span>/ Privacy Policy</span>
+  </div>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <div class="date">Last updated: ${today}</div>
+    <p>NoteNinja ("we", "us") operates <strong>noteninja.online</strong>. This Privacy Policy explains how we collect, use, and protect your information.</p>
+
+    <h2>Information We Collect</h2>
+    <ul>
+      <li><strong>Account data:</strong> When you sign in with Google, we receive your name, email address, and profile picture.</li>
+      <li><strong>Usage data:</strong> Topics you generate and feature usage counts (stored anonymously for analytics).</li>
+      <li><strong>Technical data:</strong> IP address (for rate limiting), browser user-agent, and API call timestamps.</li>
+    </ul>
+
+    <h2>How We Use Your Data</h2>
+    <ul>
+      <li>To authenticate your account and keep you signed in</li>
+      <li>To generate AI-powered study notes, flashcards, and MCQs</li>
+      <li>To track aggregate usage for product improvement</li>
+      <li>To send smart revision reminders you opt into</li>
+    </ul>
+
+    <h2>Google AdSense & Advertising</h2>
+    <p>We use <strong>Google AdSense</strong> to display advertisements. Google may use cookies to serve ads based on your visits to this and other websites. You can opt out at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ad Settings</a> or <a href="https://www.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>.</p>
+
+    <h2>Third-Party Services</h2>
+    <ul>
+      <li><strong>Google OAuth</strong> — Authentication. Subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+      <li><strong>Groq API</strong> — AI content generation. Topic queries are sent to Groq servers.</li>
+      <li><strong>MongoDB Atlas</strong> — Cloud database for account and feedback data.</li>
+      <li><strong>Razorpay</strong> — Payment processing for optional support. Card details are never stored by us.</li>
+    </ul>
+
+    <h2>Cookies</h2>
+    <ul>
+      <li><strong>localStorage:</strong> Your auth token and notes history are stored in your browser only.</li>
+      <li><strong>Google AdSense cookies:</strong> For ad personalisation (can be disabled via Google Ad Settings).</li>
+    </ul>
+
+    <h2>Data Retention</h2>
+    <p>Account data is retained while your account is active. Notes history exists only in your browser's localStorage and is never uploaded to our servers.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>NoteNinja is for students aged 13 and above. We do not knowingly collect data from children under 13.</p>
+
+    <h2>Security</h2>
+    <p>We implement HTTPS, rate limiting, input sanitisation, and CORS restrictions to protect your data.</p>
+
+    <h2>Contact</h2>
+    <p>For privacy questions or data deletion: <a href="mailto:kalpeshwadile6@gmail.com">kalpeshwadile6@gmail.com</a></p>
+
+    <div class="footer">
+      <p>© ${year} NoteNinja. All rights reserved. | <a href="/terms">Terms of Service</a> | <a href="/">Back to NoteNinja</a></p>
+    </div>
+  </div>
+</body>
+</html>`);
+});
+
+// ── TERMS OF SERVICE ──────────────────────────────────────────────────────────
+app.get('/terms', (req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  const year = new Date().getFullYear();
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Service — NoteNinja</title>
+  <meta name="description" content="Terms of Service for NoteNinja — AI-powered exam helper for Indian students."/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423436827122681" crossorigin="anonymous"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#080808;color:#e0e0e0;line-height:1.8}
+    .header{background:#111;border-bottom:1px solid #222;padding:16px 24px;display:flex;align-items:center;gap:12px}
+    .header a{color:#e63329;text-decoration:none;font-weight:700;font-size:1.1rem}
+    .header span{color:#555;font-size:0.85rem}
+    .container{max-width:760px;margin:0 auto;padding:40px 24px 80px}
+    h1{font-size:1.8rem;color:#f0f0f0;margin-bottom:6px}
+    .date{color:#555;font-size:0.82rem;margin-bottom:36px;font-family:monospace}
+    h2{font-size:1.05rem;color:#e63329;margin:32px 0 10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.5px}
+    p{color:#aaa;margin-bottom:12px;font-size:0.92rem}
+    a{color:#e63329}
+    ul{color:#aaa;font-size:0.92rem;padding-left:20px;margin-bottom:12px}
+    ul li{margin-bottom:6px}
+    .footer{margin-top:40px;padding-top:20px;border-top:1px solid #222;color:#555;font-size:0.8rem}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="/">🥷 NoteNinja</a>
+    <span>/ Terms of Service</span>
+  </div>
+  <div class="container">
+    <h1>Terms of Service</h1>
+    <div class="date">Last updated: ${today}</div>
+    <p>By using NoteNinja at <strong>noteninja.online</strong>, you agree to these Terms. If you disagree, please stop using the service.</p>
+
+    <h2>Use of Service</h2>
+    <ul>
+      <li>NoteNinja is a free AI-powered study tool for students.</li>
+      <li>You must be at least 13 years old to use this service.</li>
+      <li>Do not misuse the service — including bypassing rate limits, reverse-engineering, or overloading our servers.</li>
+      <li>AI-generated content is for study assistance only and may not always be 100% accurate. Verify critical information independently.</li>
+    </ul>
+
+    <h2>Intellectual Property</h2>
+    <p>The NoteNinja platform, design, and branding are owned by NoteNinja. AI-generated notes are for your personal educational use only.</p>
+
+    <h2>Advertising</h2>
+    <p>NoteNinja displays third-party ads via Google AdSense to keep the service free. By using NoteNinja, you consent to the display of these ads.</p>
+
+    <h2>Disclaimer</h2>
+    <p>NoteNinja provides AI-generated content "as is" without warranties of accuracy. We are not liable for errors in AI-generated content or decisions made based on it.</p>
+
+    <h2>Termination</h2>
+    <p>We may suspend or terminate access for users who violate these Terms or abuse the platform.</p>
+
+    <h2>Changes</h2>
+    <p>We may update these Terms occasionally. Continued use after changes means you accept the updated Terms.</p>
+
+    <h2>Contact</h2>
+    <p>Questions? Email: <a href="mailto:kalpeshwadile6@gmail.com">kalpeshwadile6@gmail.com</a></p>
+
+    <div class="footer">
+      <p>© ${year} NoteNinja. All rights reserved. | <a href="/privacy-policy">Privacy Policy</a> | <a href="/">Back to NoteNinja</a></p>
+    </div>
+  </div>
+</body>
+</html>`);
+});
+
 // ── HEALTH CHECK ─────────────────────────────────────────────────────────────
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), uptime: process.uptime() });
