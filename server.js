@@ -431,31 +431,34 @@ Sitemap: https://noteninja.online/sitemap.xml`
 
 // ── SEO: sitemap.xml ──────────────────────────────────────────────────────────
 app.get('/sitemap.xml', (req, res) => {
-  res.type('application/xml');
   const now = new Date().toISOString().split('T')[0];
-  res.send(
-`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://noteninja.online/</loc>
-    <lastmod>${now}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://noteninja.online/privacy-policy</loc>
-    <lastmod>${now}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://noteninja.online/terms</loc>
-    <lastmod>${now}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-</urlset>`
-  );
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
+    '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n' +
+    '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n' +
+    '  <url>\n' +
+    '    <loc>https://noteninja.online/</loc>\n' +
+    '    <lastmod>' + now + '</lastmod>\n' +
+    '    <changefreq>weekly</changefreq>\n' +
+    '    <priority>1.0</priority>\n' +
+    '  </url>\n' +
+    '  <url>\n' +
+    '    <loc>https://noteninja.online/privacy-policy</loc>\n' +
+    '    <lastmod>' + now + '</lastmod>\n' +
+    '    <changefreq>monthly</changefreq>\n' +
+    '    <priority>0.3</priority>\n' +
+    '  </url>\n' +
+    '  <url>\n' +
+    '    <loc>https://noteninja.online/terms</loc>\n' +
+    '    <lastmod>' + now + '</lastmod>\n' +
+    '    <changefreq>monthly</changefreq>\n' +
+    '    <priority>0.3</priority>\n' +
+    '  </url>\n' +
+    '</urlset>';
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.status(200).end(xml);
 });
 
 // ── ADSENSE: ads.txt (required for AdSense revenue) ──────────────────────────
