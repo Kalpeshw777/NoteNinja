@@ -14,13 +14,16 @@
 <meta name="robots" content="index, follow"/>
 <meta property="og:title" content="NoteNinja — Free AI Exam Helper"/>
 <meta property="og:description" content="Don't study harder. Study ninja. Free AI notes, Q&amp;A and flashcards for any exam topic. 100% free forever."/>
-<meta property="og:url" content="https://noteninja.is-a.dev"/>
+<meta property="og:url" content="https://noteninja.online"/>
 <meta property="og:type" content="website"/>
-<meta property="og:image" content="https://noteninja.is-a.dev/icon-512.png"/>
+<meta property="og:image" content="https://noteninja.online/icon-512.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="NoteNinja — Free AI Exam Helper"/>
-<meta name="twitter:description" content="Don't study harder. Study ninja. Free AI notes, flashcards &amp; MCQs for any exam topic."/>
-<link rel="canonical" href="https://noteninja.is-a.dev"/>
+<meta name="twitter:title" content="NoteNinja — Free AI Exam Helper for JEE, NEET &amp; B.Tech"/>
+<meta name="twitter:description" content="Don't study harder. Study ninja. Free AI notes, flashcards &amp; MCQs for JEE, NEET, B.Tech &amp; Board Exams."/>
+<meta name="twitter:image" content="https://noteninja.online/icon-512.png"/>
+<link rel="canonical" href="https://noteninja.online"/>
+<!-- Google AdSense — site verification + ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423436827122681" crossorigin="anonymous"></script>
 <link rel="manifest" href="/manifest.json"/>
 <link rel="apple-touch-icon" href="/icon-192.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -31,11 +34,13 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "NoteNinja",
-  "description": "Free AI-powered exam helper with instant notes, Q&A, flashcards and MCQs",
-  "url": "https://noteninja.is-a.dev",
+  "description": "Free AI-powered exam helper for JEE, NEET, B.Tech and Board Exams. Instant notes, Q&A, flashcards and MCQs.",
+  "url": "https://noteninja.online",
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Any",
+  "inLanguage": "en-IN",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"},
+  "audience": {"@type": "Audience", "audienceType": "Indian students preparing for JEE, NEET, B.Tech, Board Exams"},
   "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "150"}
 }
 </script>
@@ -1847,6 +1852,12 @@
         </div>
       </div>
       <p class="login-note">No credit card · Works for JEE, NEET, B.Tech, Boards · Takes 10 seconds</p>
+      <p style="font-size:0.62rem;color:rgba(255,255,255,0.2);text-align:center;margin-top:10px;font-family:'DM Mono',monospace;">
+        By signing in you agree to our
+        <a href="/privacy-policy" target="_blank" rel="noopener" style="color:rgba(230,51,41,0.6);text-decoration:underline;">Privacy Policy</a>
+        &amp;
+        <a href="/terms" target="_blank" rel="noopener" style="color:rgba(230,51,41,0.6);text-decoration:underline;">Terms of Service</a>
+      </p>
       <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
         <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.25);letter-spacing:1px">BUILT BY</span>
         <a href="https://github.com/kalpeshw777" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;text-decoration:none;color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:0.65rem;transition:all 0.2s">
@@ -1915,6 +1926,17 @@
   <div class="free-banner">
     <div class="free-banner-text"><strong>🥷 NoteNinja is completely free!</strong> No limits, no paywalls. Enjoy unlimited AI-powered notes.</div>
     <button class="free-banner-btn" onclick="openModal()">☕ Buy us a coffee</button>
+  </div>
+
+  <!-- ADSENSE: Welcome ad shown once per session after login -->
+  <div id="ad-welcome-banner" style="display:none;margin:8px 0;text-align:center;min-height:90px;background:rgba(255,255,255,0.02);border:1px solid #1e1e1e;border-radius:10px;overflow:hidden;position:relative;">
+    <div style="position:absolute;top:4px;right:8px;font-size:0.55rem;color:rgba(255,255,255,0.15);font-family:monospace;pointer-events:none;z-index:1">AD</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6423436827122681"
+         data-ad-slot="auto"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
   </div>
 
   <!-- NOTIFICATION BANNER -->
@@ -1999,6 +2021,15 @@
         <div class="stat-card"><div class="stat-val" id="statPoints">—</div><div class="stat-label">KEY POINTS</div></div>
         <div class="stat-card"><div class="stat-val" id="statQA">—</div><div class="stat-label">Q&A PAIRS</div></div>
         <div class="stat-card"><div class="stat-val" id="statCards">—</div><div class="stat-label">FLASHCARDS</div></div>
+      </div>
+      <!-- ADSENSE: Ad shown after notes are generated -->
+      <div id="ad-after-notes" style="display:none;margin:8px 0 16px;text-align:center;min-height:90px;background:rgba(255,255,255,0.02);border:1px solid #1e1e1e;border-radius:10px;overflow:hidden;padding:4px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6423436827122681"
+             data-ad-slot="auto"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
       </div>
       <div class="tabs">
         <button class="tab active" onclick="switchTab('notes')">📝 Notes</button>
@@ -2290,6 +2321,15 @@
   }
   function showAppWithTour() {
     showApp();
+    // Show welcome ad once per session
+    if (!sessionStorage.getItem('nn_ad_shown')) {
+      sessionStorage.setItem('nn_ad_shown', '1');
+      const adBanner = document.getElementById('ad-welcome-banner');
+      if (adBanner) {
+        adBanner.style.display = 'block';
+        try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+      }
+    }
     // Start tour for first-time users - wait for DOM to render fully
     if (!localStorage.getItem('ss_tour_done')) {
       setTimeout(() => {
@@ -2490,7 +2530,7 @@
       (currentNotes.qa||[]).map((q,i)=>'Q'+(i+1)+': '+q.q+'\nA: '+q.a+' ['+q.diff+']').join('\n\n'),
       '',
       '='.repeat(40),
-      'Generated by NoteNinja — noteninja.is-a.dev'
+      'Generated by NoteNinja — noteninja.online'
     ].join('\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -2588,6 +2628,13 @@
     currentCardIdx = 0; cardFlipped = false;
     updateCard();
     document.getElementById('results').classList.add('active');
+    // ── ADSENSE: Show ad after notes are generated ──────────────────────────
+    const adSlot = document.getElementById('ad-after-notes');
+    if (adSlot) {
+      adSlot.style.display = 'block';
+      // Re-push ad if already initialised (for repeat generations)
+      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+    }
     renderMCQ(data.qa || []);
     initDoubtSolver(topic, data);
     switchTab('notes');
@@ -2808,7 +2855,7 @@
     trackEvent('brain_rot_complete',{score:brScore,pct});
   }
   function shareBrainRot() {
-    const text='I scored '+brScore+'/10 in Brain Rot Mode on NoteNinja!\nCan you beat me? Try FREE: https://noteninja.is-a.dev';
+    const text='I scored '+brScore+'/10 in Brain Rot Mode on NoteNinja!\nCan you beat me? Try FREE: https://noteninja.online';
     window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');
     trackEvent('brain_rot_shared',{score:brScore});
   }
@@ -2836,7 +2883,7 @@
       doc.setFont('helvetica','bold');
       doc.setFontSize(16);
       doc.text('NoteNinja',M+25,18);
-      doc.setFontSize(7.5); doc.setFont('helvetica','normal'); doc.text('AI-Powered Exam Helper  noteninja.is-a.dev',M,21);
+      doc.setFontSize(7.5); doc.setFont('helvetica','normal'); doc.text('AI-Powered Exam Helper  noteninja.online',M,21);
       doc.text('Generated: '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),M,28);
       y=42;
       doc.setFillColor(244,244,250); doc.roundedRect(M,y-5,CW,17,3,3,'F');
@@ -3296,7 +3343,7 @@
     if(!topic||!currentNotes) return false;
     const def=currentNotes.definition||'';
     const pts=(currentNotes.points||[]).slice(0,3).map((p,i)=>(i+1)+'. '+p.title).join(', ');
-    shareUrl='https://noteninja.is-a.dev'+'?topic='+encodeURIComponent(topic);
+    shareUrl='https://noteninja.online'+'?topic='+encodeURIComponent(topic);
     shareText='Check out my NoteNinja notes on "'+topic+'"!\n\n'+def.substring(0,120)+'...\n\nKey points: '+pts+'\n\nStudy FREE at NoteNinja: '+shareUrl;
     return true;
   }
@@ -4066,6 +4113,21 @@
     </div>
   </div>
 </div>
+<!-- SITE FOOTER -->
+<footer style="text-align:center;padding:24px 16px 40px;border-top:1px solid #151515;margin-top:20px;">
+  <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.15);letter-spacing:1px;margin-bottom:10px;">🥷 NOTENINJA</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <a href="/privacy-policy" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#e63329'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Privacy Policy</a>
+    <span style="color:rgba(255,255,255,0.1);font-size:0.5rem;">●</span>
+    <a href="/terms" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#e63329'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Terms of Service</a>
+    <span style="color:rgba(255,255,255,0.1);font-size:0.5rem;">●</span>
+    <a href="mailto:kalpeshwadile6@gmail.com" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#e63329'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Contact</a>
+    <span style="color:rgba(255,255,255,0.1);font-size:0.5rem;">●</span>
+    <a href="https://github.com/kalpeshw777" target="_blank" rel="noopener noreferrer" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#e63329'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">GitHub</a>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:rgba(255,255,255,0.1);margin-top:10px;">© <span id="footerYear"></span> NoteNinja · Don't study harder. Study ninja.</div>
+<script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+</footer>
 
 </body>
 </html>
