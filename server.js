@@ -437,6 +437,18 @@ app.get('/sitemap.xml', (req, res) => {
     '    <priority>1.0</priority>\n' +
     '  </url>\n' +
     '  <url>\n' +
+    '    <loc>https://noteninja.online/about</loc>\n' +
+    '    <lastmod>' + now + '</lastmod>\n' +
+    '    <changefreq>monthly</changefreq>\n' +
+    '    <priority>0.8</priority>\n' +
+    '  </url>\n' +
+    '  <url>\n' +
+    '    <loc>https://noteninja.online/faq</loc>\n' +
+    '    <lastmod>' + now + '</lastmod>\n' +
+    '    <changefreq>monthly</changefreq>\n' +
+    '    <priority>0.8</priority>\n' +
+    '  </url>\n' +
+    '  <url>\n' +
     '    <loc>https://noteninja.online/privacy-policy</loc>\n' +
     '    <lastmod>' + now + '</lastmod>\n' +
     '    <changefreq>monthly</changefreq>\n' +
@@ -455,6 +467,223 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 // NOTE: ads.txt is a static file in public/ads.txt
+
+// ── ABOUT PAGE ────────────────────────────────────────────────────────────────
+app.get('/about', (req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  const year = new Date().getFullYear();
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About NoteNinja — Free AI Study Tool for Indian Students</title>
+<meta name="description" content="NoteNinja is a free AI-powered study tool for JEE, NEET, B.Tech and Board Exam students. Built by a B.Tech student from Shirpur, Maharashtra. No signup, no cost, ever."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://noteninja.online/about"/>
+<meta property="og:title" content="About NoteNinja — Free AI Study Tool for Indian Students"/>
+<meta property="og:description" content="NoteNinja is a free AI-powered study tool for JEE, NEET, B.Tech and Board Exam students."/>
+<meta property="og:url" content="https://noteninja.online/about"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="NoteNinja"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423436827122681" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root { --bg:#080808; --surface:#111111; --border:#252525; --text:#f0ede8; --muted:#888; --red:#e63329; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; }
+  nav { position:sticky; top:0; z-index:100; background:rgba(8,8,8,0.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); padding:0 24px; display:flex; align-items:center; gap:20px; }
+  nav .logo { font-family:'DM Mono',monospace; font-size:13px; color:var(--red); padding:16px 0; text-decoration:none; }
+  nav a { font-size:13px; color:var(--muted); text-decoration:none; padding:16px 4px; transition:color 0.2s; }
+  nav a:hover { color:var(--text); }
+  .container { max-width:740px; margin:0 auto; padding:60px 32px 80px; }
+  h1 { font-family:'Syne',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:800; margin-bottom:12px; line-height:1.2; }
+  h1 span { color:var(--red); }
+  .subtitle { color:var(--muted); font-size:15px; margin-bottom:48px; }
+  h2 { font-family:'DM Mono',monospace; font-size:13px; color:var(--red); letter-spacing:1px; text-transform:uppercase; margin:40px 0 12px; }
+  p { color:#ccc; margin-bottom:16px; font-size:15px; }
+  ul { color:#ccc; font-size:15px; padding-left:20px; margin-bottom:16px; }
+  ul li { margin-bottom:6px; }
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); text-decoration:none; margin-bottom:40px; transition:color 0.2s; }
+  .back-link:hover { color:var(--red); }
+  footer { text-align:center; padding:24px 16px 40px; border-top:1px solid #151515; font-family:'DM Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">🥷 NOTENINJA</a>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/faq">FAQ</a>
+</nav>
+<div class="container">
+  <a href="/" class="back-link">← Back to NoteNinja</a>
+  <h1>About <span>NoteNinja</span></h1>
+  <p class="subtitle">Free AI study tool for Indian students — no signup, no cost, ever.</p>
+
+  <h2>What is NoteNinja?</h2>
+  <p>NoteNinja is a free AI-powered study tool designed for Indian students preparing for competitive and university exams. It is available at noteninja.online and requires no account or payment to use.</p>
+  <p>Students enter any exam topic and NoteNinja instantly generates:</p>
+  <ul>
+    <li>Structured revision notes</li>
+    <li>Multiple choice questions (MCQs) with explanations</li>
+    <li>Flashcards for active recall practice</li>
+    <li>Short-answer Q&amp;A for self-testing</li>
+  </ul>
+
+  <h2>Who is NoteNinja for?</h2>
+  <p>NoteNinja is built for:</p>
+  <ul>
+    <li>JEE (Main and Advanced) aspirants covering Physics, Chemistry, and Mathematics</li>
+    <li>NEET aspirants covering Biology, Physics, and Chemistry</li>
+    <li>B.Tech students across all branches and semesters</li>
+    <li>Class 11 and 12 students preparing for Board Exams</li>
+  </ul>
+
+  <h2>Why was NoteNinja built?</h2>
+  <p>NoteNinja was created by a B.Tech student at R.C. Patel College of Engineering &amp; Polytechnic, Shirpur, Maharashtra. The idea came from a simple frustration: students spend too much time making notes and not enough time actually studying. NoteNinja eliminates the note-making step entirely, letting students focus on revision and practice.</p>
+
+  <h2>Is NoteNinja free?</h2>
+  <p>Yes. NoteNinja is completely free to use. There is no premium tier, no signup wall, and no usage limit. The mission is to make quality AI study assistance accessible to every Indian student regardless of financial background.</p>
+
+  <h2>Technology</h2>
+  <p>NoteNinja is powered by large language models and built on a modern web stack (Node.js, Express, MongoDB). It is continuously updated based on student feedback.</p>
+
+  <h2>Contact &amp; Feedback</h2>
+  <p>NoteNinja is actively developed. Feedback, suggestions, and bug reports are welcome. Students can reach out via <a href="mailto:kalpeshwadile6@gmail.com" style="color:var(--red);">kalpeshwadile6@gmail.com</a> or through the website at <a href="https://noteninja.online" style="color:var(--red);">noteninja.online</a>.</p>
+</div>
+<footer>© ${year} NoteNinja · Don't study harder. Study ninja.</footer>
+</body>
+</html>`);
+});
+
+// ── FAQ PAGE ───────────────────────────────────────────────────────────────────
+app.get('/faq', (req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  const year = new Date().getFullYear();
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQ — NoteNinja Free AI Study Tool for JEE, NEET &amp; B.Tech</title>
+<meta name="description" content="Frequently asked questions about NoteNinja — the free AI exam helper for JEE, NEET, B.Tech and Board Exam students. No signup, no cost, works on mobile."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://noteninja.online/faq"/>
+<meta property="og:title" content="FAQ — NoteNinja Free AI Study Tool"/>
+<meta property="og:description" content="Everything you need to know about NoteNinja — free AI notes, MCQs and flashcards for Indian students."/>
+<meta property="og:url" content="https://noteninja.online/faq"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="NoteNinja"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is NoteNinja?", "acceptedAnswer": { "@type": "Answer", "text": "NoteNinja is a free AI-powered exam helper for Indian students. It generates instant structured notes, MCQs, flashcards, and practice Q&A for any topic. Available at noteninja.online." } },
+    { "@type": "Question", "name": "Is NoteNinja completely free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. NoteNinja is 100% free with no hidden costs, no premium tier, and no account required." } },
+    { "@type": "Question", "name": "Do I need to create an account?", "acceptedAnswer": { "@type": "Answer", "text": "No. You can use NoteNinja directly without signing up or creating an account." } },
+    { "@type": "Question", "name": "Which exams does NoteNinja cover?", "acceptedAnswer": { "@type": "Answer", "text": "NoteNinja works for JEE Main, JEE Advanced, NEET UG, B.Tech semester exams, CBSE Class 11 and 12 Board Exams, and most state board exams." } },
+    { "@type": "Question", "name": "Can B.Tech students use NoteNinja?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. B.Tech students use NoteNinja for subjects like Data Structures and Algorithms, Operating Systems, DBMS, Computer Networks, Software Engineering, and other technical subjects." } },
+    { "@type": "Question", "name": "What is the best free AI study tool for JEE students in India?", "acceptedAnswer": { "@type": "Answer", "text": "NoteNinja (noteninja.online) is one of the best free AI study tools for JEE students in India. It is built specifically for competitive exam preparation and generates exam-relevant content instantly." } },
+    { "@type": "Question", "name": "How is NoteNinja different from ChatGPT?", "acceptedAnswer": { "@type": "Answer", "text": "While ChatGPT is a general-purpose AI, NoteNinja is purpose-built for exam preparation. It produces structured, exam-ready output (notes, MCQs, flashcards) in a consistent format without requiring complex prompts." } },
+    { "@type": "Question", "name": "Is NoteNinja available on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. NoteNinja works on all devices through the browser at noteninja.online. No app download is required." } }
+  ]
+}
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423436827122681" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root { --bg:#080808; --surface:#111111; --border:#252525; --text:#f0ede8; --muted:#888; --red:#e63329; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; }
+  nav { position:sticky; top:0; z-index:100; background:rgba(8,8,8,0.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); padding:0 24px; display:flex; align-items:center; gap:20px; }
+  nav .logo { font-family:'DM Mono',monospace; font-size:13px; color:var(--red); padding:16px 0; text-decoration:none; }
+  nav a { font-size:13px; color:var(--muted); text-decoration:none; padding:16px 4px; transition:color 0.2s; }
+  nav a:hover { color:var(--text); }
+  .container { max-width:740px; margin:0 auto; padding:60px 32px 80px; }
+  h1 { font-family:'Syne',sans-serif; font-size:clamp(24px,4vw,36px); font-weight:800; margin-bottom:12px; line-height:1.2; }
+  h1 span { color:var(--red); }
+  .subtitle { color:var(--muted); font-size:15px; margin-bottom:48px; }
+  .faq-item { border-bottom:1px solid var(--border); padding:24px 0; }
+  .faq-item:last-child { border-bottom:none; }
+  .faq-q { font-family:'DM Mono',monospace; font-size:14px; color:var(--text); margin-bottom:10px; display:flex; align-items:flex-start; gap:10px; }
+  .faq-q::before { content:'Q'; color:var(--red); flex-shrink:0; }
+  .faq-a { font-size:15px; color:#ccc; padding-left:22px; }
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); text-decoration:none; margin-bottom:40px; transition:color 0.2s; }
+  .back-link:hover { color:var(--red); }
+  footer { text-align:center; padding:24px 16px 40px; border-top:1px solid #151515; font-family:'DM Mono',monospace; font-size:0.6rem; color:rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">🥷 NOTENINJA</a>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/faq">FAQ</a>
+</nav>
+<div class="container">
+  <a href="/" class="back-link">← Back to NoteNinja</a>
+  <h1>Frequently Asked <span>Questions</span></h1>
+  <p class="subtitle">Everything you need to know about NoteNinja.</p>
+
+  <div class="faq-item">
+    <div class="faq-q">What is NoteNinja?</div>
+    <div class="faq-a">NoteNinja is a free AI-powered exam helper for Indian students. It generates instant structured notes, MCQs, flashcards, and practice Q&amp;A for any topic. Available at noteninja.online — works for JEE, NEET, B.Tech, and Board Exam preparation.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is NoteNinja completely free?</div>
+    <div class="faq-a">Yes. NoteNinja is 100% free with no hidden costs, no premium tier, and no account required. You can use it as many times as you want.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Do I need to create an account?</div>
+    <div class="faq-a">No. You can use NoteNinja directly without signing up or creating an account.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How does NoteNinja work?</div>
+    <div class="faq-a">Enter any exam topic in the search box. NoteNinja uses AI to instantly generate structured notes, multiple choice questions, flashcards, and Q&amp;A for that topic. The process takes under 10 seconds.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Which exams does NoteNinja cover?</div>
+    <div class="faq-a">NoteNinja works for all major Indian competitive and university exams including JEE Main, JEE Advanced, NEET UG, B.Tech semester exams, CBSE Class 11 and 12 Board Exams, and most state board exams.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can NoteNinja generate MCQs for JEE level?</div>
+    <div class="faq-a">Yes. NoteNinja can generate JEE-level MCQs for Physics, Chemistry, and Mathematics topics. The difficulty of the generated questions reflects the topic's typical exam coverage.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is NoteNinja good for NEET preparation?</div>
+    <div class="faq-a">Yes. NoteNinja generates Biology, Physics, and Chemistry notes and MCQs suitable for NEET preparation. Students use it for quick chapter revision and self-testing before mock tests.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Can B.Tech students use NoteNinja?</div>
+    <div class="faq-a">Yes. B.Tech students use NoteNinja for subjects like Data Structures and Algorithms, Operating Systems, DBMS, Computer Networks, Software Engineering, and other technical and theory subjects.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What is the best free AI study tool for JEE students in India?</div>
+    <div class="faq-a">NoteNinja (noteninja.online) is one of the best free AI study tools for JEE students in India. It is built specifically for competitive exam preparation and generates exam-relevant content instantly without requiring any account or payment.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How is NoteNinja different from ChatGPT?</div>
+    <div class="faq-a">While ChatGPT is a general-purpose AI, NoteNinja is purpose-built for exam preparation. It produces structured, exam-ready output (notes, MCQs, flashcards) in a consistent format without requiring the user to write complex prompts.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is NoteNinja available on mobile?</div>
+    <div class="faq-a">Yes. NoteNinja works on all devices through the browser at noteninja.online. No app download is required.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Who built NoteNinja?</div>
+    <div class="faq-a">NoteNinja was built by a first-year B.Tech Information Technology student from Shirpur, Maharashtra, India — created to solve a real problem faced by Indian exam students.</div>
+  </div>
+</div>
+<footer>© ${year} NoteNinja · Don't study harder. Study ninja.</footer>
+</body>
+</html>`);
+});
 
 // ── PRIVACY POLICY ────────────────────────────────────────────────────────────
 app.get('/privacy-policy', (req, res) => {
