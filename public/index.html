@@ -943,6 +943,105 @@
   .donate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .modal-close { color: var(--text-muted); font-size: 0.76rem; cursor: pointer; text-decoration: underline; display: block; }
 
+  /* ── Support + Share Growth Nudge ───────────────────── */
+  .support-nudge-card {
+    background: radial-gradient(circle at 20% 0%, rgba(245,197,24,0.14), rgba(255,255,255,0.03) 42%, rgba(230,51,41,0.06));
+    border: 1px solid rgba(245,197,24,0.24);
+    border-radius: 16px;
+    padding: 15px 14px;
+    margin: -8px 0 14px;
+    text-align: left;
+    box-shadow: 0 0 28px rgba(245,197,24,0.06);
+  }
+  .mission-kicker {
+    font-family:'DM Mono',monospace;
+    color: var(--gold);
+    font-size: 0.66rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mission-meter {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 10px 0 12px;
+    border: 1px solid rgba(245,197,24,0.16);
+  }
+  .mission-fill {
+    width: 58%;
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold), var(--accent));
+    box-shadow: 0 0 18px rgba(245,197,24,0.35);
+  }
+  .support-nudge-line {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    color: #d6d6d6;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin: 7px 0;
+  }
+  .support-nudge-line span:first-child { flex-shrink: 0; }
+  .support-reward-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .support-reward-badge {
+    font-family:'DM Mono',monospace;
+    font-size:0.61rem;
+    color:#ffd866;
+    border:1px solid rgba(245,197,24,0.22);
+    background:rgba(245,197,24,0.07);
+    border-radius:999px;
+    padding:5px 8px;
+  }
+  .support-share-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 10px 0 12px;
+  }
+  .support-share-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 10px;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    transition: all 0.2s;
+  }
+  .support-share-btn:hover { border-color: var(--accent2); transform: translateY(-2px); color: var(--accent2); }
+  .donation-opt.featured { position: relative; border-color: rgba(245,197,24,0.45); }
+  .donation-opt.featured::before {
+    content:'Best';
+    position:absolute;
+    top:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--gold);
+    color:#0a0a0f;
+    font-family:'DM Mono',monospace;
+    font-size:0.55rem;
+    font-weight:800;
+    padding:2px 7px;
+    border-radius:99px;
+  }
+  .donate-btn { animation: supportPulse 2.4s ease-in-out infinite; }
+  @keyframes supportPulse { 0%,100%{box-shadow:0 0 0 rgba(245,197,24,0);} 50%{box-shadow:0 0 0 5px rgba(245,197,24,0.07),0 10px 30px rgba(245,197,24,0.25);} }
+  .support-small-actions { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-top:2px; }
+  .support-small-actions span { color: var(--text-muted); font-size: 0.72rem; cursor:pointer; text-decoration: underline; }
+  .support-small-actions span:hover { color: var(--text); }
+  @media(max-width:480px){ .support-share-row{grid-template-columns:1fr;} }
+
   /* Toast */
   .toast {
     position: fixed; bottom: 20px; right: 16px; left: 16px;
@@ -2230,28 +2329,47 @@
 </div>
 </div>
 
-<!-- SUPPORT MODAL -->
+<!-- SUPPORT + SHARE MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-emoji">☕</div>
-    <h2>Support NoteNinja</h2>
-    <p class="modal-sub">NoteNinja is free for everyone. A small contribution keeps the servers running and motivates us to add more features!</p>
-    <div class="donation-options">
-      <div class="donation-opt" id="opt-49" onclick="selectAmount(49)">
-        <div class="donation-amount">₹49</div>
-        <div class="donation-label">Coffee ☕</div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle">
+    <div class="modal-emoji" id="supportModalEmoji">🥷</div>
+    <h2 id="supportModalTitle">Keep NoteNinja Free</h2>
+    <p class="modal-sub" id="supportModalSub">If NoteNinja saved your time, support once or share it with classmates. It helps keep the tool free for students.</p>
+    <div class="support-nudge-card">
+      <div class="mission-kicker">Ninja Mission unlocked</div>
+      <div class="mission-meter" aria-hidden="true"><div class="mission-fill"></div></div>
+      <div class="support-nudge-line"><span>⚡</span><div>This note used real AI server credits. A small ₹49 support keeps generations free for students.</div></div>
+      <div class="support-nudge-line"><span>🏅</span><div>Supporters get the Founder Supporter badge vibe and help build new tools like Daily Ninja Challenge.</div></div>
+      <div class="support-nudge-line"><span>📢</span><div>No money? Complete the mission by sharing NoteNinja with 2 classmates.</div></div>
+      <div class="support-reward-row">
+        <span class="support-reward-badge">Free notes stay free</span>
+        <span class="support-reward-badge">MCQs + Flashcards</span>
+        <span class="support-reward-badge">Built by a student</span>
       </div>
-      <div class="donation-opt selected" id="opt-99" onclick="selectAmount(99)">
+    </div>
+    <div class="support-share-row">
+      <button class="support-share-btn" onclick="quickShareNoteNinja()">📱 Share with Friends</button>
+      <button class="support-share-btn" onclick="copySupportLink()">🔗 Copy Link</button>
+    </div>
+    <div class="donation-options">
+      <div class="donation-opt selected" id="opt-49" onclick="selectAmount(49)">
+        <div class="donation-amount">₹49</div>
+        <div class="donation-label">Starter ☕</div>
+      </div>
+      <div class="donation-opt featured" id="opt-99" onclick="selectAmount(99)">
         <div class="donation-amount">₹99</div>
-        <div class="donation-label">Meal 🍕</div>
+        <div class="donation-label">Best ⚡</div>
       </div>
       <div class="donation-opt" id="opt-199" onclick="selectAmount(199)">
         <div class="donation-amount">₹199</div>
         <div class="donation-label">Legend 🏆</div>
       </div>
     </div>
-    <button class="donate-btn" id="donateBtn" onclick="initiateDonation()">❤️ Support with ₹99</button>
-    <span class="modal-close" onclick="closeModal()">No thanks, continue for free</span>
+    <button class="donate-btn" id="donateBtn" onclick="initiateDonation()">❤️ Support with ₹49</button>
+    <div class="support-small-actions">
+      <span onclick="closeModal()">Maybe later</span>
+      <span onclick="muteSupportNudgeToday()">Don't show today</span>
+    </div>
   </div>
 </div>
 
@@ -2261,7 +2379,7 @@
   const RAZORPAY_KEY = 'rzp_live_STNiWjgNXQyN8z';
   let authToken = localStorage.getItem('ss_token');
   let currentUser = null;
-  let selectedAmount = 99;
+  let selectedAmount = 49;
   let currentCards = [];
   let currentCardIdx = 0;
   let cardFlipped = false;
@@ -2419,6 +2537,7 @@
       updateUI();
       trackEvent('login', { method: 'google' });
       showToast('🥷 Welcome, ' + currentUser.name.split(' ')[0] + '! Ninja mode activated!', 'success');
+      setTimeout(() => maybeShowSupportNudge('login'), 2200);
     } catch(err) {
       console.error('Login error:', err);
       showToast('⚠️ Login failed. Please try again.');
@@ -2552,6 +2671,7 @@
       const btn = document.getElementById('genBtn');
       if (btn) { const r = btn.getBoundingClientRect(); showXPToast(10, r.left + r.width/2 - 20, r.top - 10); }
       applyRevealClasses();
+      setTimeout(() => maybeShowSupportNudge('generation'), 1500);
     } catch (err) {
       const msg = err.message || '';
       if (msg.includes('429') || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('traffic')) {
@@ -2790,9 +2910,69 @@
     navigator.clipboard.writeText(text).then(()=>showToast('✓ Notes copied!')).catch(()=>showToast('⚠️ Copy failed'));
   }
   // showToast replaced by colored version below
-  function openModal() { document.getElementById('modalOverlay').classList.add('active'); trackEvent('open_support_modal'); }
+  function getSupportQuietUntil() { return Number(localStorage.getItem('nn_support_quiet_until') || '0'); }
+  function isSupportQuiet() { return Date.now() < getSupportQuietUntil(); }
+  function muteSupportNudgeToday() {
+    localStorage.setItem('nn_support_quiet_until', String(Date.now() + 24*60*60*1000));
+    trackEvent('support_nudge_muted_today');
+    closeModal();
+    showToast('No problem — you can support or share later ❤️');
+  }
+  function updateSupportModalCopy(reason) {
+    const title = document.getElementById('supportModalTitle');
+    const sub = document.getElementById('supportModalSub');
+    const emoji = document.getElementById('supportModalEmoji');
+    const topic = document.getElementById('resultTopic')?.textContent || '';
+    if (!title || !sub || !emoji) return;
+    if (reason === 'generation' && topic) {
+      emoji.textContent = '🎉';
+      title.textContent = 'Notes unlocked!';
+      sub.textContent = 'You just saved study time on "' + topic + '". Support once or share with classmates to keep NoteNinja free for students.';
+    } else {
+      emoji.textContent = '🥷';
+      title.textContent = 'Support the NoteNinja Mission';
+      sub.textContent = 'NoteNinja is free because students share it and a few legends support it. Choose ₹49 once, or share it with classmates.';
+    }
+  }
+  function openModal(reason='manual') {
+    updateSupportModalCopy(reason);
+    selectAmount(49);
+    document.getElementById('modalOverlay').classList.add('active');
+    trackEvent('open_support_modal', { reason });
+  }
   function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
   function closeModalOutside(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); }
+  function maybeShowSupportNudge(reason) {
+    if (!authToken || !currentUser) return;
+    if (currentUser.supporter) return;
+    if (isSupportQuiet()) return;
+    if (document.getElementById('modalOverlay')?.classList.contains('active')) return;
+    if (document.getElementById('shareModalOverlay')?.classList.contains('active')) return;
+    if (reason === 'login') {
+      if (sessionStorage.getItem('nn_login_support_shown')) return;
+      sessionStorage.setItem('nn_login_support_shown', '1');
+    }
+    openModal(reason);
+  }
+  function getSupportShareText() {
+    const topic = document.getElementById('resultTopic')?.textContent || '';
+    if (topic && currentNotes) {
+      return 'I just generated short notes, MCQs and flashcards on "' + topic + '" using NoteNinja 🥷\n\nTry it free: https://noteninja.online?topic=' + encodeURIComponent(topic);
+    }
+    return 'I found NoteNinja 🥷 — a free AI study tool for JEE, NEET, B.Tech and Board Exam students.\n\nGenerate short notes, MCQs and flashcards instantly: https://noteninja.online';
+  }
+  function quickShareNoteNinja() {
+    const text = getSupportShareText();
+    trackEvent('support_nudge_share_whatsapp');
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener,noreferrer');
+    closeModal();
+  }
+  function copySupportLink() {
+    const topic = document.getElementById('resultTopic')?.textContent || '';
+    const url = topic ? 'https://noteninja.online?topic=' + encodeURIComponent(topic) : 'https://noteninja.online';
+    navigator.clipboard.writeText(url).then(() => showToast('🏅 Mission step complete — link copied!')).catch(() => showToast('Copy failed'));
+    trackEvent('support_nudge_copy_link');
+  }
   document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key==='Enter') generate(); });
   document.addEventListener('keydown', e => {
     if (e.key==='Escape') { closeModal(); closeDropdown(); }
